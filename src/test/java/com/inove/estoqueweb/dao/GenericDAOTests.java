@@ -3,48 +3,53 @@ package com.inove.estoqueweb.dao;
 import org.junit.*; 
 import static org.junit.Assert.*; 
 import org.hibernate.*; 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.ApplicationContext;
 
 import com.inove.estoqueweb.dominio.*;
 
 public class GenericDAOTests {
 
-	private Session session; 
+	private GenericoDAO<Categoria> dao; 
+	private static FabricaDeSessao fabrica; 
 	
 	@BeforeClass
 	public static void antesDeTodos(){
 		
-		FabricaDeSessao.utilizarBancoDeDados(FabricaDeSessao.DBConfig.HSQLDB);
+		ApplicationContext appContext = new ClassPathXmlApplicationContext("spring-context.xml");
 		
+		ConexaoBancoDeDados conexao = appContext.getBean("testeConexao",ConexaoBancoDeDados.class);
+		
+		fabrica = new FabricaDeSessaoImpl(conexao);
+				
 	}
 	
 	@Before
 	public void antes(){
 		
-		session = FabricaDeSessao.getSession(); 
-		session.beginTransaction(); 
+		dao = new GenericoDAO<Categoria>(fabrica); 
+		dao.getSession().beginTransaction(); 
 	}
 	
 	@After
 	public void depois(){
 		
-		session.getTransaction().rollback();
-		session.close();
+		dao.getSession().getTransaction().rollback();
+		dao.getSession().close();
 	}
 	
 	@Test
-	public void deveSalvarObjetos(){
+	public void deveSalvarObjetos()throws DAOException{
 				
-		GenericoDAO<Categoria> categoriaDAO = new GenericoDAO<Categoria>(session);
-		
 		Categoria categoria = new Categoria();
 		categoria.setNome("Video Game");
 		categoria.setDescricao("Categoria de video games"); 
 		
-		categoriaDAO.salvar(categoria);
+		dao.salvar(categoria);
 		
-		session.flush();
+		dao.getSession().flush();
 		
-		Categoria categoriaSalva = (Categoria) session.get(Categoria.class,categoria.getId()); 
+		Categoria categoriaSalva = (Categoria) dao.getSession().get(Categoria.class,categoria.getId()); 
 		
 		assertNotNull(categoriaSalva);
 		assertEquals(categoria.getId(),categoriaSalva.getId()); 
@@ -52,16 +57,14 @@ public class GenericDAOTests {
 	}
 	
 	@Test
-	public void deveBuscarObjetos(){
+	public void deveBuscarObjetos()throws DAOException{
 		
 		Categoria categoria = new Categoria(); 
 		categoria.setNome("Arroz");
 		
-		session.persist(categoria);
+		dao.getSession().persist(categoria);
 		
-		session.flush();
-		
-		GenericoDAO<Categoria> dao = new GenericoDAO<Categoria>(session); 
+		dao.getSession().flush();
 		
 		Categoria categoriaSalva = dao.buscar(Categoria.class,categoria.getId()); 
 		
@@ -71,16 +74,14 @@ public class GenericDAOTests {
 	}
 	
 	@Test
-	public void deveAlterarObjetos(){
-		
-		GenericoDAO<Categoria> dao = new GenericoDAO<Categoria>(session); 
+	public void deveAlterarObjetos()throws DAOException{
 		
 		Categoria categoria = new Categoria(); 
 		categoria.setNome("Blusa");
 		
-		session.persist(categoria);
+		dao.getSession().persist(categoria);
 		
-		Categoria categoriaSalva = (Categoria) session.get(Categoria.class,categoria.getId()); 
+		Categoria categoriaSalva = (Categoria) dao.getSession().get(Categoria.class,categoria.getId()); 
 		
 		assertEquals(categoria.getNome(),categoriaSalva.getNome()); 
 		
@@ -88,26 +89,33 @@ public class GenericDAOTests {
 		
 		dao.alterar(categoria);
 		
-		Categoria categoriaAlterada = (Categoria) session.get(Categoria.class,categoria.getId()); 
+		Categoria categoriaAlterada = (Categoria) dao.getSession().get(Categoria.class,categoria.getId()); 
 		
 		assertEquals(categoria.getNome(),categoriaAlterada.getNome()); 
 	}
 	
 	@Test
-	public void deveRemoverObjetos(){
+	public void deveRemoverObjetos()throws DAOException{
 		
 		Categoria categoria = new Categoria(); 
 		categoria.setNome("Camisa"); 
 		
-		session.persist(categoria);
+		dao.getSession().persist(categoria);
 		
-		assertNotNull(session.get(Categoria.class,categoria.getId())); 
-		
-		GenericoDAO<Categoria> dao = new GenericoDAO<Categoria>(session); 
-		
+		assertNotNull(dao.getSession().get(Categoria.class,categoria.getId())); 
+				
 		dao.remover(categoria);
 		
-		assertNull(session.get(Categoria.class,categoria.getId())); 
+		assertNull(dao.getSession().get(Categoria.class,categoria.getId())); 
 		
+	}
+	
+	@Test(expected=DAOException.class)
+	public void deveDispararErroDeValidacao()throws DAOException{
+		
+		Categoria categoria = new Categoria(); 
+		categoria.setDescricao("Categoria de camisas"); 
+		
+		dao.salvar(categoria); 
 	}
 }

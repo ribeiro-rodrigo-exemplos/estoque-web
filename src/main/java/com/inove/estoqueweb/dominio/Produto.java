@@ -23,7 +23,7 @@ public class Produto {
 	@ManyToOne
 	private Categoria categoria;
 	@ManyToOne
-	private Estoque estoque; 
+	private Estoque estoqueAtual; 
 	@ManyToOne
 	private Fornecedor fornecedor;
 	@Id
@@ -48,11 +48,11 @@ public class Produto {
 	public String getNome() {
 		return nome;
 	}
-	public Estoque getEstoque() {
-		return estoque;
+	public Estoque getEstoqueAtual() {
+		return estoqueAtual;
 	}
-	public void setEstoque(Estoque estoque) {
-		this.estoque = estoque;
+	public void setEstoqueAtual(Estoque estoqueAtual) {
+		this.estoqueAtual = estoqueAtual;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;

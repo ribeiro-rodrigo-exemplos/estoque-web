@@ -1,7 +1,11 @@
 package com.inove.estoqueweb.webservice;
 
+import com.inove.estoqueweb.dominio.Estoque;
+import com.inove.estoqueweb.dominio.Movimentacao;
+import com.inove.estoqueweb.dominio.Produto;
 import com.inove.estoqueweb.dto.*;
 
+import java.util.Date;
 import java.util.List; 
 
 public class EstoqueWebService {
@@ -107,7 +111,7 @@ public class EstoqueWebService {
 		return null; 
 	}
 	
-	public void registrarEntradaDeProduto(Long produtoId, Integer quantidade){
+	public void registrarEntradaDeProduto(Long produtoId, Long estoqueId, Integer quantidade){
 		
 		
 	}
@@ -116,4 +120,30 @@ public class EstoqueWebService {
 		
 		
 	}
+		
+	public List<Movimentacao> listarMovimentacoesDoProdutoPorPeriodo(Long produtoId,Date dataInicial, Date dataFinal){
+		
+		return null; 
+	}
+	
+	public List<Movimentacao> listarMovimentacoesDoProduto(Long produtoId){
+		
+		return null; 
+	}
+	
+	public List<Movimentacao> listarMovimentacoesNoEstoque(Long estoqueId){
+		
+		return null; 
+	}
+	
+	public List<Movimentacao> listarMovimentacoesNoEstoquePorPeriodo(Long estoqueId, Date dataInicial, Date dataFinal){
+		
+		return null; 
+	}
+	
+	public List<Movimentacao> listarMovimentacoesDoProdutoNoEstoque(Long estoqueId, Long produtoId){
+		
+		return null; 
+	}
+	 
 }

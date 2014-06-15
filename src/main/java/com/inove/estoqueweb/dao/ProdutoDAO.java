@@ -1,15 +1,18 @@
 package com.inove.estoqueweb.dao;
 
-import com.inove.estoqueweb.dominio.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
-import org.hibernate.*;
-import java.util.*; 
+import com.inove.estoqueweb.dominio.Produto;
 
+@Repository
 public class ProdutoDAO extends GenericoDAO<Produto> {
 
-	public ProdutoDAO(Session session){
+	@Autowired
+	public ProdutoDAO(FabricaDeSessao fabrica){
 		
-		super(session);
+		super(fabrica); 
 	}
 	
 }

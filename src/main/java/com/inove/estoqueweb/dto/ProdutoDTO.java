@@ -4,7 +4,7 @@ public class ProdutoDTO {
 
 	private Integer id; 
 	private Integer categoriaId; 
-	private Integer estoqueId; 
+	private Integer estoqueAtualId; 
 	private Integer fornecedorId; 
 	private Integer quantidadeMinima; 
 	private Integer quantidadeAtual; 
@@ -34,11 +34,11 @@ public class ProdutoDTO {
 	public void setCategoriaId(Integer categoriaId) {
 		this.categoriaId = categoriaId;
 	}
-	public Integer getEstoqueId() {
-		return estoqueId;
+	public Integer getEstoqueAtualId() {
+		return estoqueAtualId;
 	}
-	public void setEstoqueId(Integer estoqueId) {
-		this.estoqueId = estoqueId;
+	public void setEstoqueAtualId(Integer estoqueId) {
+		this.estoqueAtualId = estoqueId;
 	}
 	public Integer getFornecedorId() {
 		return fornecedorId;

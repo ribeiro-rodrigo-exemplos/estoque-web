@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -27,6 +28,21 @@ public class Movimentacao {
 	private Produto produto;
 	@Enumerated(EnumType.STRING)
 	private TipoMovimentacao tipo; 
+	@ManyToOne
+	private Estoque estoque; 
+	
+	public Movimentacao(){
+		
+		this(null,null,null);
+	}
+	
+	public Movimentacao(Produto produto,TipoMovimentacao tipo,Integer quantidade){
+		
+		setProduto(produto);
+		setTipo(tipo);
+		setQuantidade(quantidade);
+		setDataHora(new Date());
+	}
 	
 	
 	public TipoMovimentacao getTipo() {
@@ -38,9 +54,7 @@ public class Movimentacao {
 	public Date getDataHora() {
 		return dataHora;
 	}
-	public void setDataHora(Date dataHora) {
-		this.dataHora = dataHora;
-	}
+	
 	public Integer getQuantidade() {
 		return quantidade;
 	}
@@ -52,6 +66,19 @@ public class Movimentacao {
 	}
 	public void setProduto(Produto produto) {
 		this.produto = produto;
+		
+		if(produto!=null)
+			setEstoque(produto.getEstoqueAtual()); 
+	}
+	public Estoque getEstoque() {
+		return estoque;
+	}
+	private void setEstoque(Estoque estoque) {
+		this.estoque = estoque;
 	}  
+	
+	private void setDataHora(Date dataHora) {
+		this.dataHora = dataHora;
+	}
 	
 }
