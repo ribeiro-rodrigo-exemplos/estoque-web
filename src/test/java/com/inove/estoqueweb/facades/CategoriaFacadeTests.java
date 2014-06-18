@@ -108,8 +108,7 @@ public class CategoriaFacadeTests {
 	
 	private Categoria gerarCategoria(String nome, String descricao){
 		
-		Categoria categoria = new Categoria(); 
-		categoria.setNome(nome);
+		Categoria categoria = new Categoria(nome); 
 		categoria.setDescricao(descricao);
 		return categoria; 
 	}

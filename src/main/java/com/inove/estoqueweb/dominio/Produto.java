@@ -28,15 +28,38 @@ public class Produto {
 	private Fornecedor fornecedor;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id; 
+	private Long id; 
 	
+	public Produto(){
+		
+		this(null,null,null);
+		
+	}
+	
+	public Produto(String nome, Categoria categoria, Estoque estoqueAtual){
+		
+		this(nome,categoria,estoqueAtual,null,0,0); 
+	}
+	
+	public Produto(String nome, Categoria categoria, Estoque estoqueAtual,Fornecedor fornecedor,
+			Integer quantidadeAtual, Integer quantidadeMinima){
+		
+		setNome(nome);
+		setCategoria(categoria);
+		setEstoqueAtual(estoqueAtual);
+		setFornecedor(fornecedor); 
+		setQuantidadeAtual(quantidadeAtual); 
+		setQuantidadeMinima(quantidadeMinima); 
+		
+	}
+		
 	public Integer getQuantidadeAtual() {
 		return quantidadeAtual;
 	}
 	public void setQuantidadeAtual(Integer quantidadeAtual) {
 		this.quantidadeAtual = quantidadeAtual;
 	}
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 	public Fornecedor getFornecedor() {

@@ -1,33 +1,93 @@
 package com.inove.estoqueweb.webservice;
 
-import com.inove.estoqueweb.dominio.Estoque;
-import com.inove.estoqueweb.dominio.Movimentacao;
-import com.inove.estoqueweb.dominio.Produto;
-import com.inove.estoqueweb.dto.*;
-
 import java.util.Date;
-import java.util.List; 
+import java.util.List;
 
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.inove.estoqueweb.dao.CategoriaDAO;
+import com.inove.estoqueweb.dao.DAOException;
+import com.inove.estoqueweb.dominio.Categoria;
+import com.inove.estoqueweb.dominio.Movimentacao;
+import com.inove.estoqueweb.dto.CategoriaDTO;
+import com.inove.estoqueweb.dto.CategoriaDTOConversor;
+import com.inove.estoqueweb.dto.DTOConversor;
+import com.inove.estoqueweb.dto.EstoqueDTO;
+import com.inove.estoqueweb.dto.FornecedorDTO;
+import com.inove.estoqueweb.dto.ProdutoDTO;
+import com.inove.estoqueweb.facades.CategoriaFacade;
+
+
+@WebService(name="estoque-web")
 public class EstoqueWebService {
 
-	public Long criarCategoria(CategoriaDTO categoria){
+	private CategoriaFacade categoriaFacade; 
+	private DTOConversor<CategoriaDTO,Categoria> categoriaConversor; 
+	private CategoriaDAO categoriaDAO; 
+	
+	public EstoqueWebService(){
+		
+		ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml"); 
+		
+		categoriaFacade = context.getBean(CategoriaFacade.class); 
+		categoriaConversor = context.getBean(CategoriaDTOConversor.class); 
+		categoriaDAO = context.getBean(CategoriaDAO.class); 
+		
+	}
+	
+	@WebMethod
+	public Long criarCategoria(@WebParam(name="categoria")CategoriaDTO categoriaDTO){
+		
+		Categoria categoria = categoriaConversor.converterTransferencia(categoriaDTO); 
+		
+		try{
+		
+			Long id = categoriaFacade.criarCategoria(categoria);
+			return id; 
+		
+		}
+		catch(DAOException e){
+			
+			e.printStackTrace();
+		}
+		
+		return null; 
+		
+		
+	}
+	
+	public void removerCategoria(Long idCategoria){
+		
+		
+	}
+	
+	@WebMethod
+	public CategoriaDTO buscarCategoria(@WebParam(name="id")Long idCategoria){
+		
+		try{
+		
+			Categoria categoria = categoriaDAO.buscar(Categoria.class,idCategoria); 
+		
+			CategoriaDTO dto = categoriaConversor.converterDominio(categoria); 
+			
+			return dto; 
+		
+		}catch(DAOException e){
+			
+			e.printStackTrace();
+		}
 		
 		return null; 
 	}
 	
-	public Boolean removerCategoria(Long idCategoria){
+	public void alterarCategoria(CategoriaDTO categoria){
 		
-		return false; 
-	}
-	
-	public CategoriaDTO buscarCategoria(Long idCategoria){
 		
-		return null; 
-	}
-	
-	public CategoriaDTO alterarCategoria(CategoriaDTO categoria){
-		
-		return null; 
 	}
 	
 	public List<CategoriaDTO> listarCategorias(){

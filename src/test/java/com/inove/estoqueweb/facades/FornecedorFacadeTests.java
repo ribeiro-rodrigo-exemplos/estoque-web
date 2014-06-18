@@ -102,12 +102,11 @@ public class FornecedorFacadeTests {
 	private Fornecedor gerarFornecedor(String cnpj,String cpf, String email, String endereco, String razao,
 			String telefone) {
 		
-		Fornecedor fornecedor = new Fornecedor();
+		Fornecedor fornecedor = new Fornecedor(razao);
 		fornecedor.setCnpj(cnpj);
 		fornecedor.setCpf(cpf);
 		fornecedor.setEmail(email);
 		fornecedor.setEndereco(endereco);
-		fornecedor.setRazaoSocial(razao);
 		fornecedor.setTelefone(telefone);
 		
 		return fornecedor;

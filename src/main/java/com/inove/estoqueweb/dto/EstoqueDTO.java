@@ -2,16 +2,16 @@ package com.inove.estoqueweb.dto;
 
 public class EstoqueDTO {
 
-	private Integer id; 
+	private Long id; 
 	private String nome; 
 	private String descricao;
 	
-	public EstoqueDTO(Integer id){
+	public EstoqueDTO(Long id){
 		
 		this.id = id; 
 	}
 	
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 

@@ -110,8 +110,7 @@ public class EstoqueFacadeTests {
 	
 	private Estoque gerarEstoque(String nome, String descricao){
 		
-		Estoque estoque = new Estoque(); 
-		estoque.setNome(nome);
+		Estoque estoque = new Estoque(nome); 
 		estoque.setDescricao(descricao); 
 		
 		return estoque; 

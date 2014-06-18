@@ -6,25 +6,36 @@ import com.inove.estoqueweb.dominio.TipoMovimentacao;
 
 public class MovimentacaoDTO {
 
-	private Integer id; 
-	private Integer produtoId; 
+	private Long id; 
+	private Long produtoId;
+	private Long estoqueId; 
 	private Integer quantidade; 
 	private Date dataHora; 
 	private TipoMovimentacao tipo;
 	
-	public MovimentacaoDTO(Integer id){
+	public MovimentacaoDTO(Long id){
 		
 		this.id = id; 
 	}
 	
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 	
-	public Integer getProdutoId() {
+	public Long getEstoqueId(){
+		
+		return estoqueId;
+	}
+	
+	public void setEstoqueId(Long estoqueId){
+		
+		this.estoqueId = estoqueId; 
+	}
+	
+	public Long getProdutoId() {
 		return produtoId;
 	}
-	public void setProdutoId(Integer produtoId) {
+	public void setProdutoId(Long produtoId) {
 		this.produtoId = produtoId;
 	}
 	public Integer getQuantidade() {

@@ -2,19 +2,20 @@ package com.inove.estoqueweb.dto;
 
 public class FornecedorDTO {
 
-	private Integer id; 
+	private Long id; 
 	private String razaoSocial; 
 	private String email; 
 	private String cnpj; 
 	private String cpf; 
 	private String endereco;
+	private String telefone;
 	
-	public FornecedorDTO(Integer id){
+	public FornecedorDTO(Long id){
 		
 		this.id = id; 
 	}
 	
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 	
@@ -47,5 +48,16 @@ public class FornecedorDTO {
 	}
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
+	}
+	
+	public void setTelefone(String telefone){
+		
+		this.telefone = telefone; 
+		
+	}
+
+	public String getTelefone() {
+		// TODO Auto-generated method stub
+		return telefone;
 	} 
 }

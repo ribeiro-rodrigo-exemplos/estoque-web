@@ -19,10 +19,6 @@ public class ProdutoDTO {
 	public Integer getQuantidadeAtual() {
 		return quantidadeAtual;
 	}
-
-	public void setQuantidadeAtual(Integer quantidadeAtual) {
-		this.quantidadeAtual = quantidadeAtual;
-	}
 	
 	public Integer getId() {
 		return id;

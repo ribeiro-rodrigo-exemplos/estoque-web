@@ -11,8 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
+import com.inove.estoqueweb.dto.EstoqueDTO;
+
 @Entity
-public class Estoque {
+public class Estoque{
 
 	@Column(name="nome",nullable=false,unique=true)
 	private String nome; 
@@ -26,11 +28,24 @@ public class Estoque {
 	@OneToMany(mappedBy="id",fetch=FetchType.LAZY)
 	private List<Produto> produtos; 
 	
+	public Estoque(){
+		
+		
+	}
+	
+	public Estoque(String nome){
+		
+		setNome(nome);
+	}
+	
 	public List<Produto> getProdutos() {
 		return produtos;
 	}
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
+	}
+	public void setId(Long id){
+		this.id = id; 
 	}
 	public Long getId() {
 		return id;
@@ -47,4 +62,5 @@ public class Estoque {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	} 
+	
 }

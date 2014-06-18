@@ -80,5 +80,15 @@ public class Movimentacao {
 	private void setDataHora(Date dataHora) {
 		this.dataHora = dataHora;
 	}
+
+	public Long getId() {
+		// TODO Auto-generated method stub
+		return id;
+	}
+	
+	public void setId(Long id){
+		
+		this.id = id; 
+	}
 	
 }

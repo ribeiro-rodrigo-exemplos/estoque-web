@@ -30,6 +30,18 @@ public class Fornecedor {
 	@OneToMany(mappedBy="id",fetch=FetchType.LAZY)
 	private List<Produto> produtos; 
 	
+	@Column(name="telefone",nullable=true)
+	private String telefone; 
+	
+	public Fornecedor(){
+		
+		
+	}
+	
+	public Fornecedor(String razaoSocial){
+		
+		setRazaoSocial(razaoSocial); 
+	}
 	
 	public List<Produto> getProdutos() {
 		return produtos;
@@ -76,5 +88,10 @@ public class Fornecedor {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	private String telefone; 
+
+	public void setId(Long id) {
+		this.id = id; 
+		
+	}
+	
 }
