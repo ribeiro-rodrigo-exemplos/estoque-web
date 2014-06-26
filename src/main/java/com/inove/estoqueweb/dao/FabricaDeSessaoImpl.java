@@ -21,9 +21,9 @@ public class FabricaDeSessaoImpl implements FabricaDeSessao {
 	private ConexaoBancoDeDados conexao; 
 	
 	@Autowired
-	public FabricaDeSessaoImpl(@Qualifier("producaoConexao")ConexaoBancoDeDados conexao){
+	public FabricaDeSessaoImpl(DataSource dataSource){
 		
-		this.conexao = conexao; 
+		this.conexao = dataSource.getConexao(); 
 		conexao.getConfiguracao().setProperty("hibernate.hbm2ddl.auto","create"); 
 		
 	}

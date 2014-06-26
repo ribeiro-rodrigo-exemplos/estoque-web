@@ -2,12 +2,14 @@ package com.inove.estoqueweb.dao;
 
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
+@Scope("prototype")
 @Repository
 public class GenericoDAO<T> {
 
-	private Session session; 
+	protected Session session; 
 	
 	@Autowired
 	public GenericoDAO(FabricaDeSessao fabrica){
@@ -22,8 +24,9 @@ public class GenericoDAO<T> {
 			
 			session.save(objeto); 
 			
-		}catch(Exception e){
 			
+		}catch(Exception e){
+			  
 			throw new DAOException(e.getMessage(),e.getCause()); 
 		}
 		
@@ -53,7 +56,7 @@ public class GenericoDAO<T> {
 			
 		}
 		catch(Exception e){
-			
+			 
 			throw new DAOException(e.getMessage(),e.getCause());
 		}
 			
@@ -72,13 +75,35 @@ public class GenericoDAO<T> {
 		}
 		
 		
+	}
+	
+	public void iniciarTransacao(){
+		
+		if(!session.getTransaction().isActive())
+			session.beginTransaction(); 
+	}
+	
+	public void finalizarTransacao(){
+		
+		if(session.getTransaction().isActive()){
+			
+			session.getTransaction().commit();
+			session.flush();
+			session.close(); 
+		}
+		
+	}
+	
+	public void reverterTransacao(){
+		
+		if(session.getTransaction().isActive()){
+			
+			session.getTransaction().rollback();
+			session.close(); 
+		}
 		
 		
 	}
 	
-	public Session getSession(){
-		
-		return session; 
-	}
 	
 }

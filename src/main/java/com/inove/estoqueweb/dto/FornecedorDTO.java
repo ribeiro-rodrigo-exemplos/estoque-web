@@ -10,10 +10,20 @@ public class FornecedorDTO {
 	private String endereco;
 	private String telefone;
 	
+	public FornecedorDTO(){
+		
+	}
+	
 	public FornecedorDTO(Long id){
 		
 		this.id = id; 
 	}
+	
+	public void setId(Long id){
+		
+		this.id = id; 
+	}
+	
 	
 	public Long getId() {
 		return id;

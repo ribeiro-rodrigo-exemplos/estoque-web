@@ -33,6 +33,11 @@ public class Fornecedor {
 	@Column(name="telefone",nullable=true)
 	private String telefone; 
 	
+	public Fornecedor(Long id){
+		
+		setId(id);
+	}
+	
 	public Fornecedor(){
 		
 		

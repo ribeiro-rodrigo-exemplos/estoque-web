@@ -28,6 +28,11 @@ public class Estoque{
 	@OneToMany(mappedBy="id",fetch=FetchType.LAZY)
 	private List<Produto> produtos; 
 	
+	public Estoque(Long id){
+		
+		setId(id);
+	}
+	
 	public Estoque(){
 		
 		

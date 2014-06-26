@@ -29,6 +29,11 @@ public class Categoria{
 	@OneToMany(mappedBy="id",fetch=FetchType.LAZY)
 	private List<Produto> produtos;
 	
+	public Categoria(Long id){
+		
+		setId(id);
+	}
+	
 	public Categoria(){
 		
 		

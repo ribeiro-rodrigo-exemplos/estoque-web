@@ -12,36 +12,57 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.inove.estoqueweb.dao.CategoriaDAO;
 import com.inove.estoqueweb.dao.DAOException;
+import com.inove.estoqueweb.dao.EstoqueDAO;
+import com.inove.estoqueweb.dao.FornecedorDAO;
+import com.inove.estoqueweb.dao.ProdutoDAO;
 import com.inove.estoqueweb.dominio.Categoria;
-import com.inove.estoqueweb.dominio.Movimentacao;
+import com.inove.estoqueweb.dominio.Estoque;
+import com.inove.estoqueweb.dominio.Fornecedor;
+import com.inove.estoqueweb.dominio.Produto;
 import com.inove.estoqueweb.dto.CategoriaDTO;
 import com.inove.estoqueweb.dto.CategoriaDTOConversor;
 import com.inove.estoqueweb.dto.DTOConversor;
 import com.inove.estoqueweb.dto.EstoqueDTO;
+import com.inove.estoqueweb.dto.EstoqueDTOConversor;
 import com.inove.estoqueweb.dto.FornecedorDTO;
+import com.inove.estoqueweb.dto.FornecedorDTOConversor;
+import com.inove.estoqueweb.dto.MovimentacaoDTO;
 import com.inove.estoqueweb.dto.ProdutoDTO;
+import com.inove.estoqueweb.dto.ProdutoDTOConversor;
 import com.inove.estoqueweb.facades.CategoriaFacade;
+import com.inove.estoqueweb.facades.EstoqueFacade;
+import com.inove.estoqueweb.facades.FornecedorFacade;
+import com.inove.estoqueweb.facades.ProdutoFacade;
 
 
 @WebService(name="estoque-web")
 public class EstoqueWebService {
 
-	private CategoriaFacade categoriaFacade; 
+
 	private DTOConversor<CategoriaDTO,Categoria> categoriaConversor; 
-	private CategoriaDAO categoriaDAO; 
+	private DTOConversor<EstoqueDTO,Estoque> estoqueConversor; 
+	private DTOConversor<FornecedorDTO,Fornecedor> fornecedorConversor; 
+	private DTOConversor<ProdutoDTO,Produto> produtoConversor; 
+	private ApplicationContext context; 
 	
 	public EstoqueWebService(){
 		
-		ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml"); 
+		 context = new ClassPathXmlApplicationContext("spring-context.xml"); 
 		
-		categoriaFacade = context.getBean(CategoriaFacade.class); 
 		categoriaConversor = context.getBean(CategoriaDTOConversor.class); 
-		categoriaDAO = context.getBean(CategoriaDAO.class); 
+		estoqueConversor = context.getBean(EstoqueDTOConversor.class); 
+		fornecedorConversor = context.getBean(FornecedorDTOConversor.class); 
+		produtoConversor = context.getBean(ProdutoDTOConversor.class); 
+		
 		
 	}
 	
 	@WebMethod
-	public Long criarCategoria(@WebParam(name="categoria")CategoriaDTO categoriaDTO){
+	public Long criarCategoria(@WebParam(name="categoria")CategoriaDTO categoriaDTO)
+			throws EstoqueWebServiceException{
+		
+		
+		CategoriaFacade categoriaFacade = context.getBean(CategoriaFacade.class); 
 		
 		Categoria categoria = categoriaConversor.converterTransferencia(categoriaDTO); 
 		
@@ -53,157 +74,461 @@ public class EstoqueWebService {
 		}
 		catch(DAOException e){
 			
-			e.printStackTrace();
+			dispararExcecao(e);
+		}
+		
+		return null; 
+	}
+	
+	@WebMethod
+	public void removerCategoria(@WebParam(name="id")Long idCategoria)
+			throws EstoqueWebServiceException{
+		
+		try{
+			
+			CategoriaFacade categoriaFacade = context.getBean(CategoriaFacade.class); 
+			
+			categoriaFacade.removerCategoria(idCategoria);
+			
+		}
+		catch(DAOException e){
+			
+			dispararExcecao(e);
+		}
+		
+	}
+	
+	@WebMethod
+	public CategoriaDTO buscarCategoria(@WebParam(name="id")Long idCategoria)
+			throws EstoqueWebServiceException{
+		
+		try{
+		
+			
+			CategoriaDAO categoriaDAO = context.getBean(CategoriaDAO.class);
+			
+			Categoria categoria = categoriaDAO.buscar(Categoria.class,idCategoria); 
+			
+			if(categoria!=null){
+		
+				CategoriaDTO dto = (categoria!=null ? categoriaConversor.converterDominio(categoria):null); 
+			
+				return dto; 
+			
+			}
+		
+		}catch(DAOException e){
+			
+			dispararExcecao(e); 
+		}
+		
+		return null; 
+
+	}
+	
+	@WebMethod
+	public void alterarCategoria(@WebParam(name="categoria")CategoriaDTO categoriaDTO)
+			throws EstoqueWebServiceException{
+		
+		try{
+			
+			CategoriaFacade categoriaFacade = context.getBean(CategoriaFacade.class); 
+			
+			Categoria categoria = categoriaConversor.converterTransferencia(categoriaDTO); 
+			categoriaFacade.alterarCategoria(categoria);
+			
+		}
+		catch(DAOException e){
+			
+			dispararExcecao(e);
+		}
+		
+	}
+	
+	@WebMethod
+	public List<CategoriaDTO> listarCategorias()throws EstoqueWebServiceException{
+		
+		try{
+		
+		CategoriaDAO categoriaDAO = context.getBean(CategoriaDAO.class); 
+		
+		List<Categoria> categorias = categoriaDAO.listarCategorias(); 
+		
+		List<CategoriaDTO> dtoLista = categoriaConversor.converterLista(categorias); 
+		
+		return dtoLista; 
+		
+		}catch(DAOException e){
+			
+			dispararExcecao(e);
+		}
+		
+		return null; 
+	}
+	
+	@WebMethod
+	public Long criarEstoque(@WebParam(name="estoque")EstoqueDTO estoqueDTO)throws EstoqueWebServiceException{
+		
+		EstoqueFacade estoqueFacade = context.getBean(EstoqueFacade.class); 
+		
+		Estoque estoque = estoqueConversor.converterTransferencia(estoqueDTO); 
+		
+		try{
+		
+			Long id = estoqueFacade.criarEstoque(estoque); 
+		
+			return id; 
+		
+		 }
+		catch(DAOException e){
+			
+			dispararExcecao(e);
+		}
+		
+		return null; 
+	}
+	
+	@WebMethod
+	public void removerEstoque(@WebParam(name="id")Long idEstoque)throws EstoqueWebServiceException{
+		
+		 EstoqueFacade estoqueFacade = context.getBean(EstoqueFacade.class); 
+		 
+		 try{
+			 
+			 estoqueFacade.removerEstoque(idEstoque);
+		 
+		 }
+		 catch(DAOException e){
+			 
+			 dispararExcecao(e); 
+		 }
+	}
+	
+	@WebMethod
+	public void alterarEstoque(@WebParam(name="estoque")EstoqueDTO estoqueDTO)throws EstoqueWebServiceException{
+		
+		EstoqueFacade estoqueFacade = context.getBean(EstoqueFacade.class); 
+		
+		Estoque estoque = estoqueConversor.converterTransferencia(estoqueDTO); 
+		
+		try{
+		
+			estoqueFacade.alterarEstoque(estoque);
+		
+		}
+		catch(DAOException e){
+			
+			dispararExcecao(e);
+		}
+		 
+	}
+	
+	@WebMethod
+	public EstoqueDTO buscarEstoque(@WebParam(name="id")Long idEstoque)throws EstoqueWebServiceException{
+		
+		EstoqueDAO estoqueDAO  = context.getBean(EstoqueDAO.class); 
+		
+		try{
+		
+			Estoque estoque = estoqueDAO.buscar(Estoque.class, idEstoque); 
+			
+			if(estoque==null)
+				return null; 
+		
+			EstoqueDTO estoqueDTO = estoqueConversor.converterDominio(estoque); 
+		
+			return estoqueDTO; 
+		
+		}catch(DAOException e){
+			
+			dispararExcecao(e);
+		}
+		
+		return null; 
+	}
+	
+	@WebMethod
+	public List<EstoqueDTO> listarEstoques()throws EstoqueWebServiceException{
+		
+		EstoqueDAO estoqueDAO  = context.getBean(EstoqueDAO.class); 
+		
+		try{
+		
+			List<Estoque> estoques = estoqueDAO.listarEstoques(); 
+		
+			List<EstoqueDTO> dtoLista = estoqueConversor.converterLista(estoques); 
+		
+			return dtoLista; 
+		
+		}catch(DAOException e){
+			
+			dispararExcecao(e); 
+		}
+		
+		return null; 
+	}
+	
+	@WebMethod
+	public Long criarFornecedor(@WebParam(name="fornecedor")FornecedorDTO fornecedorDTO)
+			throws EstoqueWebServiceException{
+		
+		FornecedorFacade fornecedorFacade = context.getBean(FornecedorFacade.class); 
+		Fornecedor fornecedor = fornecedorConversor.converterTransferencia(fornecedorDTO);
+		
+		try{
+		
+			Long id = fornecedorFacade.criarFornecedor(fornecedor); 
+			
+			return id; 
+		
+		}
+		catch(DAOException e){
+			
+			dispararExcecao(e);
 		}
 		
 		return null; 
 		
-		
 	}
 	
-	public void removerCategoria(Long idCategoria){
+	@WebMethod
+	public void removerFornecedor(@WebParam(name="id")Long idFornecedor)throws EstoqueWebServiceException{
+		
+		FornecedorFacade fornecedorFacade = context.getBean(FornecedorFacade.class); 
+		
+		try{
+		
+			fornecedorFacade.removerFornecedor(idFornecedor);
+		
+		}
+		catch(DAOException e){
+			
+			dispararExcecao(e);
+		}
+		 
+	}
+	
+	@WebMethod
+	public void alterarFornecedor(@WebParam(name="fornecedor")FornecedorDTO fornecedorDTO)
+			throws EstoqueWebServiceException{
+		
+		FornecedorFacade fornecedorFacade = context.getBean(FornecedorFacade.class); 
+		
+		try{
+			
+			Fornecedor fornecedor = fornecedorConversor.converterTransferencia(fornecedorDTO); 
+			
+			fornecedorFacade.alterarFornecedor(fornecedor);
+			
+		}
+		catch(DAOException e){
+			
+			dispararExcecao(e);
+		}
+		 
+	}
+	
+	@WebMethod
+	public FornecedorDTO buscarFornecedor(@WebParam(name="id")Long fornecedorId)throws EstoqueWebServiceException{
+		
+		FornecedorDAO dao = context.getBean(FornecedorDAO.class); 
+		
+		try{
+			
+			Fornecedor fornecedor = dao.buscar(Fornecedor.class,fornecedorId);
+			
+			if(fornecedor!=null){
+				
+				FornecedorDTO dto = fornecedorConversor.converterDominio(fornecedor);
+				
+				return dto; 
+			}
+			 
+			
+		}
+		catch(DAOException e){
+			
+			dispararExcecao(e);
+		}
+		
+		return null; 
+	}
+	
+	@WebMethod
+	public List<FornecedorDTO> listarFornecedores()throws EstoqueWebServiceException{
+		
+		FornecedorDAO dao = context.getBean(FornecedorDAO.class); 
+		
+		try{
+		
+			List<Fornecedor> fornecedores = dao.listarFornecedores(); 
+			
+			List<FornecedorDTO> dtoLista = fornecedorConversor.converterLista(fornecedores);
+			
+			return dtoLista; 
+		
+		}
+		catch(DAOException e){
+			
+			dispararExcecao(e);
+		}
+		
+		return null; 
 		
 		
 	}
 	
 	@WebMethod
-	public CategoriaDTO buscarCategoria(@WebParam(name="id")Long idCategoria){
+	public Long criarProduto(@WebParam(name="produto")ProdutoDTO produtoDTO)throws EstoqueWebServiceException{
+		
+		ProdutoFacade facade = context.getBean(ProdutoFacade.class); 
 		
 		try{
-		
-			Categoria categoria = categoriaDAO.buscar(Categoria.class,idCategoria); 
-		
-			CategoriaDTO dto = categoriaConversor.converterDominio(categoria); 
 			
-			return dto; 
-		
-		}catch(DAOException e){
+			Produto produto = produtoConversor.converterTransferencia(produtoDTO); 
 			
-			e.printStackTrace();
+			Long id = facade.criarProduto(produto); 
+			
+			return id; 
+			
+		}
+		catch(DAOException e){
+			
+			dispararExcecao(e);
 		}
 		
 		return null; 
 	}
 	
-	public void alterarCategoria(CategoriaDTO categoria){
+	@WebMethod
+	public void removerProduto(@WebParam(name="id")Long produtoId)throws EstoqueWebServiceException{
 		
 		
-	}
-	
-	public List<CategoriaDTO> listarCategorias(){
+		ProdutoFacade facade = context.getBean(ProdutoFacade.class); 
 		
-		return null; 
-	}
-	
-	public Long criarEstoque(EstoqueDTO estoque){
+		try{
+			
+			facade.removerProduto(produtoId);
+			
+		}
+		catch(DAOException e){
+			
+			dispararExcecao(e);
+		}
 		
-		return null; 
-	}
-	
-	public Boolean removerEstoque(Long idEstoque){
-		
-		return false; 
-	}
-	
-	public EstoqueDTO alterarEstoque(EstoqueDTO estoque){
-		
-		return null; 
-	}
-	
-	public EstoqueDTO buscarEstoque(Long idEstoque){
-		
-		return null; 
-	}
-	
-	public List<EstoqueDTO> listarEstoques(){
-		
-		return null; 
-	}
-	
-	public Long criarFornecedor(FornecedorDTO fornecedor){
-		
-		return null; 
+
 		
 	}
 	
-	public Boolean removerFornecedor(Integer idFornecedor){
+	@WebMethod
+	public ProdutoDTO buscarProduto(@WebParam(name="id")Long produtoId)throws EstoqueWebServiceException{
 		
-		return false; 
-	}
-	
-	public FornecedorDTO alterarFornecedor(FornecedorDTO fornecedor){
+		ProdutoDAO dao = context.getBean(ProdutoDAO.class); 
 		
-		return null; 
-	}
-	
-	public FornecedorDTO buscarFornecedor(Long fornecedorId){
-		
-		return null; 
-	}
-	
-	public List<FornecedorDTO> listarFornecedores(){
-		
-		return null; 
-	}
-	
-	public Long criarProduto(ProdutoDTO produto){
-		
-		return null; 
-	}
-	
-	public Boolean removerProduto(Long produtoId){
-		
-		return null; 
-	}
-	
-	public ProdutoDTO buscarProduto(Long produtoId){
+		try{
+			
+			Produto produto = dao.buscar(Produto.class,produtoId); 
+			
+			if(produto!=null){
+				
+				ProdutoDTO dto = produtoConversor.converterDominio(produto); 
+				return dto; 
+			}
+			
+		}
+		catch(DAOException e){
+			
+			dispararExcecao(e);
+		}
 		
 		return null;
 	}
 	
-	public ProdutoDTO alterarProduto(ProdutoDTO produto){
+	@WebMethod
+	public void alterarProduto(@WebParam(name="produto")ProdutoDTO produtoDTO)throws EstoqueWebServiceException{
+		
+		ProdutoFacade facade = context.getBean(ProdutoFacade.class); 
+		
+		try{
+			
+			Produto produto = produtoConversor.converterTransferencia(produtoDTO);
+			
+			facade.alterarProduto(produto);
+		}
+		catch(DAOException e){
+			
+			dispararExcecao(e);
+		}
+		
+	}
+	
+	@WebMethod
+	public List<ProdutoDTO> listarProdutos()throws EstoqueWebServiceException{
+		
+		ProdutoDAO dao = context.getBean(ProdutoDAO.class); 
+		
+		try{
+			
+			List<Produto> produtos = dao.listarProdutos(); 
+			
+			List<ProdutoDTO> dtoLista = produtoConversor.converterLista(produtos); 
+			
+			return dtoLista; 
+			
+		}
+		catch(DAOException e){
+			
+			dispararExcecao(e); 
+		}
 		
 		return null; 
 	}
 	
-	public List<ProdutoDTO> listarProdutos(){
-		
-		return null; 
-	}
-	
-	public void registrarEntradaDeProduto(Long produtoId, Long estoqueId, Integer quantidade){
+	@WebMethod
+	public void registrarEntradaDeProduto(@WebParam(name="produtoId")Long produtoId, @WebParam(name="estoqueId")Long estoqueId, 
+			@WebParam(name="quantidade")Integer quantidade)	throws EstoqueWebServiceException{
 		
 		
 	}
 	
-	public void registrarSaidaDeProduto(Long produtoId, Integer quantidade){
+	@WebMethod
+	public void registrarSaidaDeProduto(@WebParam(name="produtoId")Long produtoId, 
+			@WebParam(name="quantidade")Integer quantidade)throws EstoqueWebServiceException{
 		
 		
 	}
 		
-	public List<Movimentacao> listarMovimentacoesDoProdutoPorPeriodo(Long produtoId,Date dataInicial, Date dataFinal){
+	public List<MovimentacaoDTO> listarMovimentacoesDoProdutoPorPeriodo(Long produtoId,Date dataInicial, Date dataFinal)
+	throws EstoqueWebServiceException{
 		
 		return null; 
 	}
 	
-	public List<Movimentacao> listarMovimentacoesDoProduto(Long produtoId){
+	public List<MovimentacaoDTO> listarMovimentacoesDoProduto(Long produtoId)throws EstoqueWebServiceException{
 		
 		return null; 
 	}
 	
-	public List<Movimentacao> listarMovimentacoesNoEstoque(Long estoqueId){
+	public List<MovimentacaoDTO> listarMovimentacoesNoEstoque(Long estoqueId)throws EstoqueWebServiceException{
 		
 		return null; 
 	}
 	
-	public List<Movimentacao> listarMovimentacoesNoEstoquePorPeriodo(Long estoqueId, Date dataInicial, Date dataFinal){
+	public List<MovimentacaoDTO> listarMovimentacoesNoEstoquePorPeriodo(Long estoqueId, Date dataInicial, Date dataFinal)
+	throws EstoqueWebServiceException{
 		
 		return null; 
 	}
 	
-	public List<Movimentacao> listarMovimentacoesDoProdutoNoEstoque(Long estoqueId, Long produtoId){
+	public List<MovimentacaoDTO> listarMovimentacoesDoProdutoNoEstoque(Long estoqueId, Long produtoId)
+	throws EstoqueWebServiceException{
 		
 		return null; 
+	}
+	
+	private void dispararExcecao(DAOException e)throws EstoqueWebServiceException{
+		
+		throw new EstoqueWebServiceException(e.getMessage(),new EstoqueWebServiceFault(),e.getCause());
 	}
 	 
 }

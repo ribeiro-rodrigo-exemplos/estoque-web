@@ -1,12 +1,14 @@
 package com.inove.estoqueweb.facades;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.inove.estoqueweb.dao.CategoriaDAO;
 import com.inove.estoqueweb.dao.DAOException;
 import com.inove.estoqueweb.dominio.Categoria;
 
+@Scope("prototype")
 @Component
 public class CategoriaFacade {
 
@@ -20,8 +22,10 @@ public class CategoriaFacade {
 	
 	public Long criarCategoria(Categoria categoria)throws DAOException{
 		
+		categoriaDAO.iniciarTransacao();
 		categoriaDAO.salvar(categoria);
-		categoriaDAO.getSession().flush();
+		categoriaDAO.finalizarTransacao();
+
 		
 		return categoria.getId();  
 		
@@ -36,10 +40,14 @@ public class CategoriaFacade {
 		
 		Categoria categoria = categoriaDAO.buscar(Categoria.class, id); 
 		
-		if(categoria!=null)
+		if(categoria!=null){
+			
+			categoriaDAO.iniciarTransacao();
 			categoriaDAO.remover(categoria);
-		
-		categoriaDAO.getSession().flush();
+			categoriaDAO.finalizarTransacao();
+			
+		}
+			
 		
 	}
 	
@@ -53,8 +61,9 @@ public class CategoriaFacade {
 		categoriaPesquisada.setDescricao(categoria.getDescricao());
 		categoriaPesquisada.setNome(categoria.getNome());
 		
+		categoriaDAO.iniciarTransacao();
 		categoriaDAO.alterar(categoriaPesquisada);
-		categoriaDAO.getSession().flush();
+		categoriaDAO.finalizarTransacao();
 			
 	}
 	

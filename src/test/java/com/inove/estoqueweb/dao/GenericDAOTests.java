@@ -19,8 +19,8 @@ public class GenericDAOTests {
 		ApplicationContext appContext = new ClassPathXmlApplicationContext("spring-context.xml");
 		
 		ConexaoBancoDeDados conexao = appContext.getBean("testeConexao",ConexaoBancoDeDados.class);
-		
-		fabrica = new FabricaDeSessaoImpl(conexao);
+		DataSource dataSource = new DataSource(conexao); 
+		fabrica = new FabricaDeSessaoImpl(dataSource);
 				
 	}
 	
@@ -28,14 +28,13 @@ public class GenericDAOTests {
 	public void antes(){
 		
 		dao = new GenericoDAO<Categoria>(fabrica); 
-		dao.getSession().beginTransaction(); 
+		dao.iniciarTransacao();
 	}
 	
 	@After
 	public void depois(){
 		
-		dao.getSession().getTransaction().rollback();
-		dao.getSession().close();
+		dao.reverterTransacao();
 	}
 	
 	@Test
@@ -47,9 +46,7 @@ public class GenericDAOTests {
 		
 		dao.salvar(categoria);
 		
-		dao.getSession().flush();
-		
-		Categoria categoriaSalva = (Categoria) dao.getSession().get(Categoria.class,categoria.getId()); 
+		Categoria categoriaSalva = (Categoria) dao.buscar(Categoria.class,categoria.getId()); 
 		
 		assertNotNull(categoriaSalva);
 		assertEquals(categoria.getId(),categoriaSalva.getId()); 
@@ -62,10 +59,8 @@ public class GenericDAOTests {
 		Categoria categoria = new Categoria(); 
 		categoria.setNome("Arroz");
 		
-		dao.getSession().persist(categoria);
-		
-		dao.getSession().flush();
-		
+		dao.salvar(categoria);
+				
 		Categoria categoriaSalva = dao.buscar(Categoria.class,categoria.getId()); 
 		
 		assertNotNull(categoriaSalva);
@@ -79,9 +74,9 @@ public class GenericDAOTests {
 		Categoria categoria = new Categoria(); 
 		categoria.setNome("Blusa");
 		
-		dao.getSession().persist(categoria);
+		dao.salvar(categoria);
 		
-		Categoria categoriaSalva = (Categoria) dao.getSession().get(Categoria.class,categoria.getId()); 
+		Categoria categoriaSalva = (Categoria) dao.buscar(Categoria.class,categoria.getId()); 
 		
 		assertEquals(categoria.getNome(),categoriaSalva.getNome()); 
 		
@@ -89,7 +84,7 @@ public class GenericDAOTests {
 		
 		dao.alterar(categoria);
 		
-		Categoria categoriaAlterada = (Categoria) dao.getSession().get(Categoria.class,categoria.getId()); 
+		Categoria categoriaAlterada = (Categoria) dao.buscar(Categoria.class,categoria.getId()); 
 		
 		assertEquals(categoria.getNome(),categoriaAlterada.getNome()); 
 	}
@@ -100,13 +95,13 @@ public class GenericDAOTests {
 		Categoria categoria = new Categoria(); 
 		categoria.setNome("Camisa"); 
 		
-		dao.getSession().persist(categoria);
+		dao.salvar(categoria);
 		
-		assertNotNull(dao.getSession().get(Categoria.class,categoria.getId())); 
+		assertNotNull(dao.buscar(Categoria.class,categoria.getId())); 
 				
 		dao.remover(categoria);
 		
-		assertNull(dao.getSession().get(Categoria.class,categoria.getId())); 
+		assertNull(dao.buscar(Categoria.class,categoria.getId())); 
 		
 	}
 	

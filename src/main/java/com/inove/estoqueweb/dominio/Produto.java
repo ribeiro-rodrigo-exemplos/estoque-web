@@ -30,11 +30,13 @@ public class Produto {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id; 
 	
+	
 	public Produto(){
 		
 		this(null,null,null);
 		
 	}
+	
 	
 	public Produto(String nome, Categoria categoria, Estoque estoqueAtual){
 		
@@ -62,6 +64,12 @@ public class Produto {
 	public Long getId() {
 		return id;
 	}
+	
+	public void setId(Long id){
+		
+		this.id = id; 
+	}
+	
 	public Fornecedor getFornecedor() {
 		return fornecedor;
 	}

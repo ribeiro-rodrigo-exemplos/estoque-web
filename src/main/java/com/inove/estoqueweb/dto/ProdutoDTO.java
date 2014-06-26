@@ -2,44 +2,61 @@ package com.inove.estoqueweb.dto;
 
 public class ProdutoDTO {
 
-	private Integer id; 
-	private Integer categoriaId; 
-	private Integer estoqueAtualId; 
-	private Integer fornecedorId; 
+	private Long id; 
+	private Long categoriaId; 
+	private Long estoqueAtualId; 
+	private Long fornecedorId; 
 	private Integer quantidadeMinima; 
 	private Integer quantidadeAtual; 
 	private String nome; 
 	private String descricao;
 	
-	public ProdutoDTO(Integer id){
+	public ProdutoDTO(){
+		
+		
+	}
+	
+	public ProdutoDTO(Long id){
 		
 		this.id = id; 
+	}
+	
+	public void setQuantidadeAtual(Integer quantidade){
+		
+		this.quantidadeAtual = quantidade; 
 	}
 	
 	public Integer getQuantidadeAtual() {
 		return quantidadeAtual;
 	}
 	
-	public Integer getId() {
+	
+	public void setId(Long id){
+		
+		this.id = id; 
+	}
+	
+	
+	public Long getId() {
 		return id;
 	}
 
-	public Integer getCategoriaId() {
+	public Long getCategoriaId() {
 		return categoriaId;
 	}
-	public void setCategoriaId(Integer categoriaId) {
+	public void setCategoriaId(Long categoriaId) {
 		this.categoriaId = categoriaId;
 	}
-	public Integer getEstoqueAtualId() {
+	public Long getEstoqueAtualId() {
 		return estoqueAtualId;
 	}
-	public void setEstoqueAtualId(Integer estoqueId) {
+	public void setEstoqueAtualId(Long estoqueId) {
 		this.estoqueAtualId = estoqueId;
 	}
-	public Integer getFornecedorId() {
+	public Long getFornecedorId() {
 		return fornecedorId;
 	}
-	public void setFornecedorId(Integer fornecedorId) {
+	public void setFornecedorId(Long fornecedorId) {
 		this.fornecedorId = fornecedorId;
 	}
 	public Integer getQuantidadeMinima() {

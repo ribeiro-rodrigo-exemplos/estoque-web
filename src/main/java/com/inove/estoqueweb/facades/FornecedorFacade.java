@@ -1,12 +1,14 @@
 package com.inove.estoqueweb.facades;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.inove.estoqueweb.dao.DAOException;
 import com.inove.estoqueweb.dao.FornecedorDAO;
 import com.inove.estoqueweb.dominio.Fornecedor;
 
+@Scope("prototype")
 @Component
 public class FornecedorFacade {
 
@@ -20,8 +22,9 @@ public class FornecedorFacade {
 	
 	public Long criarFornecedor(Fornecedor fornecedor)throws DAOException{
 		
+		fornecedorDAO.iniciarTransacao();
 		fornecedorDAO.salvar(fornecedor);
-		fornecedorDAO.getSession().flush();
+		fornecedorDAO.finalizarTransacao();
 		
 		return fornecedor.getId();  
 		
@@ -36,10 +39,14 @@ public class FornecedorFacade {
 		
 		Fornecedor fornecedor = fornecedorDAO.buscar(Fornecedor.class, id); 
 		
-		if(fornecedor!=null)
+		if(fornecedor!=null){
+			
+			fornecedorDAO.iniciarTransacao();
 			fornecedorDAO.remover(fornecedor);
+			fornecedorDAO.finalizarTransacao(); 
+			
+		}
 		
-		fornecedorDAO.getSession().flush();
 		
 	}
 	
@@ -57,8 +64,9 @@ public class FornecedorFacade {
 		fornecedorPesquisado.setRazaoSocial(fornecedor.getRazaoSocial());
 		fornecedorPesquisado.setTelefone(fornecedor.getTelefone());
 		
+		fornecedorDAO.iniciarTransacao();
 		fornecedorDAO.alterar(fornecedorPesquisado);
-		fornecedorDAO.getSession().flush(); 
+		fornecedorDAO.finalizarTransacao();
 		
 		
 	}

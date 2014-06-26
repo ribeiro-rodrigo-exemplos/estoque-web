@@ -4,4 +4,19 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  
+  <listener>
+  	<listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
+  </listener>
+  
+  <servlet>
+  	<servlet-name>EstoqueWebService</servlet-name>
+  	<servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>EstoqueWebService</servlet-name>
+  	<url-pattern>/estoqueService</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

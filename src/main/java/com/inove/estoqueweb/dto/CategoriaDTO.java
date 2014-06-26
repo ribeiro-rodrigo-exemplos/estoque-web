@@ -6,7 +6,16 @@ public class CategoriaDTO {
 	private String nome; 
 	private String descricao;
 	
+	public CategoriaDTO(){
+		
+	}
+	
 	public CategoriaDTO(Long id){
+		
+		this.id = id; 
+	}
+	
+	public void setId(Long id){
 		
 		this.id = id; 
 	}

@@ -4,12 +4,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import static org.junit.Assert.*; 
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.inove.estoqueweb.dao.ConexaoBancoDeDados;
 import com.inove.estoqueweb.dao.DAOException;
+import com.inove.estoqueweb.dao.DataSource;
 import com.inove.estoqueweb.dao.FabricaDeSessao;
 import com.inove.estoqueweb.dao.FabricaDeSessaoImpl;
 import com.inove.estoqueweb.dao.FornecedorDAO;
@@ -26,7 +29,8 @@ public class FornecedorFacadeTests {
 		
 		ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml"); 
 		ConexaoBancoDeDados conexao = context.getBean("testeConexao",ConexaoBancoDeDados.class);
-		fabricaDeSessao = new FabricaDeSessaoImpl(conexao);
+		DataSource dataSource = new DataSource(conexao); 
+		fabricaDeSessao = new FabricaDeSessaoImpl(dataSource);
 	}
 	
 	@Before
@@ -34,15 +38,14 @@ public class FornecedorFacadeTests {
 		
 		dao = new FornecedorDAO(fabricaDeSessao); 
 		fornecedorFacade = new FornecedorFacade(dao);
-		dao.getSession().beginTransaction(); 
+		dao.iniciarTransacao();
 		
 	}
 	
 	@After
 	public void depois(){
 		
-		dao.getSession().getTransaction().rollback();
-		dao.getSession().close(); 
+		dao.finalizarTransacao(); 
 	}
 	
 	@Test

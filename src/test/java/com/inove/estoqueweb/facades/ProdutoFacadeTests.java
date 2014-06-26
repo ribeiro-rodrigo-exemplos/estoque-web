@@ -9,6 +9,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.inove.estoqueweb.dao.CategoriaDAO;
 import com.inove.estoqueweb.dao.ConexaoBancoDeDados;
+import com.inove.estoqueweb.dao.DataSource;
 import com.inove.estoqueweb.dao.EstoqueDAO;
 import com.inove.estoqueweb.dao.FabricaDeSessao;
 import com.inove.estoqueweb.dao.FabricaDeSessaoImpl;
@@ -33,7 +34,8 @@ public class ProdutoFacadeTests {
 		context = new ClassPathXmlApplicationContext("spring-context.xml"); 
 		
 		ConexaoBancoDeDados conexao = context.getBean("testeConexao",ConexaoBancoDeDados.class);
-		fabricaDeSessao = new FabricaDeSessaoImpl(conexao);
+		DataSource dataSource = new DataSource(conexao); 
+		fabricaDeSessao = new FabricaDeSessaoImpl(dataSource);
 	}
 	
 	@Before
@@ -44,24 +46,20 @@ public class ProdutoFacadeTests {
 		estoqueDAO = new EstoqueDAO(fabricaDeSessao); 
 		fornecedorDAO = new FornecedorDAO(fabricaDeSessao);
 		facade = new ProdutoFacade(produtoDAO,categoriaDAO,estoqueDAO,fornecedorDAO); 
-		produtoDAO.getSession().beginTransaction(); 
-		categoriaDAO.getSession().beginTransaction();
-		estoqueDAO.getSession().beginTransaction();
-		fornecedorDAO.getSession().beginTransaction();
+		produtoDAO.iniciarTransacao(); 
+		categoriaDAO.iniciarTransacao();
+		estoqueDAO.iniciarTransacao();
+		fornecedorDAO.iniciarTransacao();
 		produtoBuilder = new ProdutoDataBuilder(); 
 	}
 	
 	@After
 	public void depois(){
 		
-		produtoDAO.getSession().getTransaction().rollback();
-		categoriaDAO.getSession().getTransaction().rollback();
-		estoqueDAO.getSession().getTransaction().rollback();
-		fornecedorDAO.getSession().getTransaction().rollback();
-		produtoDAO.getSession().close(); 
-		categoriaDAO.getSession().close(); 
-		estoqueDAO.getSession().close(); 
-		fornecedorDAO.getSession().close(); 
+		produtoDAO.finalizarTransacao();
+		categoriaDAO.finalizarTransacao();
+		estoqueDAO.finalizarTransacao();
+		fornecedorDAO.finalizarTransacao();
 		
 	}
 	

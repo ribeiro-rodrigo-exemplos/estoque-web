@@ -6,7 +6,16 @@ public class EstoqueDTO {
 	private String nome; 
 	private String descricao;
 	
+	public EstoqueDTO(){
+		
+	}
+	
 	public EstoqueDTO(Long id){
+		
+		this.id = id; 
+	}
+	
+	public void setId(Long id){
 		
 		this.id = id; 
 	}

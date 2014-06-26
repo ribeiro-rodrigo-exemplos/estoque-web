@@ -3,13 +3,16 @@ package com.inove.estoqueweb.facades;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
+
 import static org.junit.Assert.*; 
+
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.inove.estoqueweb.dao.ConexaoBancoDeDados;
 import com.inove.estoqueweb.dao.DAOException;
+import com.inove.estoqueweb.dao.DataSource;
 import com.inove.estoqueweb.dao.EstoqueDAO;
 import com.inove.estoqueweb.dao.FabricaDeSessao;
 import com.inove.estoqueweb.dao.FabricaDeSessaoImpl;
@@ -27,7 +30,8 @@ public class EstoqueFacadeTests {
 		ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml"); 
 		
 		ConexaoBancoDeDados conexao = context.getBean("testeConexao",ConexaoBancoDeDados.class);
-		fabricaDeSessao = new FabricaDeSessaoImpl(conexao);
+		DataSource dataSource = new DataSource(conexao); 
+		fabricaDeSessao = new FabricaDeSessaoImpl(dataSource);
 		
 	}
 	
@@ -36,15 +40,14 @@ public class EstoqueFacadeTests {
 		
 		dao = new EstoqueDAO(fabricaDeSessao); 
 		facade = new EstoqueFacade(dao); 
-		dao.getSession().beginTransaction(); 
+		dao.iniciarTransacao(); 
 		
 	}
 	
 	@After
 	public void depois(){
 		
-		dao.getSession().getTransaction().rollback(); 
-		dao.getSession().close(); 
+		dao.finalizarTransacao(); 
 	}
 	
 	@Test

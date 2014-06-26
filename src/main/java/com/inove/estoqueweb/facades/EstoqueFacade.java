@@ -1,12 +1,14 @@
 package com.inove.estoqueweb.facades;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.inove.estoqueweb.dao.DAOException;
 import com.inove.estoqueweb.dao.EstoqueDAO;
 import com.inove.estoqueweb.dominio.Estoque;
 
+@Scope("prototype")
 @Component
 public class EstoqueFacade {
 
@@ -20,9 +22,11 @@ public class EstoqueFacade {
 	
 	public Long criarEstoque(Estoque estoque)throws DAOException{
 		
+		estoqueDAO.iniciarTransacao();
+		
 		estoqueDAO.salvar(estoque);
 		
-		estoqueDAO.getSession().flush();
+		estoqueDAO.finalizarTransacao();
 		
 		return estoque.getId(); 
 		
@@ -40,8 +44,9 @@ public class EstoqueFacade {
 		if(estoque==null)
 			return; 
 		
+		estoqueDAO.iniciarTransacao();
 		estoqueDAO.remover(estoque);
-		estoqueDAO.getSession().flush(); 
+		estoqueDAO.finalizarTransacao();
 		
 	}
 	
@@ -55,8 +60,9 @@ public class EstoqueFacade {
 		estoquePesquisado.setDescricao(estoque.getDescricao());
 		estoquePesquisado.setNome(estoque.getNome());
 		
+		estoqueDAO.iniciarTransacao();
 		estoqueDAO.alterar(estoquePesquisado);
-		estoqueDAO.getSession().flush(); 
+		estoqueDAO.finalizarTransacao();
 		
 	
 	}
