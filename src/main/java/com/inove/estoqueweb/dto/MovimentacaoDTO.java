@@ -2,8 +2,12 @@ package com.inove.estoqueweb.dto;
 
 import java.util.*; 
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
 import com.inove.estoqueweb.dominio.TipoMovimentacao;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class MovimentacaoDTO {
 
 	private Long id; 

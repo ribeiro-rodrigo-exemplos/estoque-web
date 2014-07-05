@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import javax.jws.WebResult;
 import javax.jws.WebService;
 
 import org.springframework.context.ApplicationContext;
@@ -62,7 +63,8 @@ public class EstoqueWebService {
 		
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="criarCategoria")
+	@WebResult(name="idCategoria")
 	public Long criarCategoria(@WebParam(name="categoria")CategoriaDTO categoriaDTO)
 			throws EstoqueWebServiceException{
 		
@@ -85,7 +87,7 @@ public class EstoqueWebService {
 		return null; 
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="removerCategoria")
 	public void removerCategoria(@WebParam(name="id")Long idCategoria)
 			throws EstoqueWebServiceException{
 		
@@ -103,7 +105,8 @@ public class EstoqueWebService {
 		
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="buscarCategoria")
+	@WebResult(name="categoria")
 	public CategoriaDTO buscarCategoria(@WebParam(name="id")Long idCategoria)
 			throws EstoqueWebServiceException{
 		
@@ -135,7 +138,7 @@ public class EstoqueWebService {
 
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="alterarCategoria")
 	public void alterarCategoria(@WebParam(name="categoria")CategoriaDTO categoriaDTO)
 			throws EstoqueWebServiceException{
 		
@@ -154,7 +157,8 @@ public class EstoqueWebService {
 		
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="listarCategorias")
+	@WebResult(name="categorias")
 	public List<CategoriaDTO> listarCategorias()throws EstoqueWebServiceException{
 		
 		CategoriaDAO categoriaDAO = context.getBean(CategoriaDAO.class); 
@@ -180,7 +184,8 @@ public class EstoqueWebService {
 		return null; 
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="criarEstoque")
+	@WebResult(name="estoqueId")
 	public Long criarEstoque(@WebParam(name="estoque")EstoqueDTO estoqueDTO)throws EstoqueWebServiceException{
 		
 		EstoqueFacade estoqueFacade = context.getBean(EstoqueFacade.class); 
@@ -202,7 +207,7 @@ public class EstoqueWebService {
 		return null; 
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="removerEstoque")
 	public void removerEstoque(@WebParam(name="id")Long idEstoque)throws EstoqueWebServiceException{
 		
 		 EstoqueFacade estoqueFacade = context.getBean(EstoqueFacade.class); 
@@ -218,7 +223,7 @@ public class EstoqueWebService {
 		 }
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="alterarEstoque")
 	public void alterarEstoque(@WebParam(name="estoque")EstoqueDTO estoqueDTO)throws EstoqueWebServiceException{
 		
 		EstoqueFacade estoqueFacade = context.getBean(EstoqueFacade.class); 
@@ -237,7 +242,8 @@ public class EstoqueWebService {
 		 
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="buscarEstoque")
+	@WebResult(name="estoque")
 	public EstoqueDTO buscarEstoque(@WebParam(name="id")Long idEstoque)throws EstoqueWebServiceException{
 		
 		EstoqueDAO estoqueDAO  = context.getBean(EstoqueDAO.class); 
@@ -265,7 +271,8 @@ public class EstoqueWebService {
 		return null; 
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="listarEstoques")
+	@WebResult(name="estoques")
 	public List<EstoqueDTO> listarEstoques()throws EstoqueWebServiceException{
 		
 		EstoqueDAO estoqueDAO  = context.getBean(EstoqueDAO.class); 
@@ -290,7 +297,8 @@ public class EstoqueWebService {
 		return null; 
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="criarFornecedor")
+	@WebResult(name="fornecedorId")
 	public Long criarFornecedor(@WebParam(name="fornecedor")FornecedorDTO fornecedorDTO)
 			throws EstoqueWebServiceException{
 		
@@ -313,7 +321,7 @@ public class EstoqueWebService {
 		
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="removerFornecedor")
 	public void removerFornecedor(@WebParam(name="id")Long idFornecedor)throws EstoqueWebServiceException{
 		
 		FornecedorFacade fornecedorFacade = context.getBean(FornecedorFacade.class); 
@@ -330,7 +338,7 @@ public class EstoqueWebService {
 		 
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="alterarFornecedor")
 	public void alterarFornecedor(@WebParam(name="fornecedor")FornecedorDTO fornecedorDTO)
 			throws EstoqueWebServiceException{
 		
@@ -350,7 +358,8 @@ public class EstoqueWebService {
 		 
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="buscarFornecedor")
+	@WebResult(name="fornecedor")
 	public FornecedorDTO buscarFornecedor(@WebParam(name="id")Long fornecedorId)throws EstoqueWebServiceException{
 		
 		FornecedorDAO dao = context.getBean(FornecedorDAO.class); 
@@ -380,7 +389,8 @@ public class EstoqueWebService {
 		return null; 
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="listarFornecedores")
+	@WebResult(name="fornecedores")
 	public List<FornecedorDTO> listarFornecedores()throws EstoqueWebServiceException{
 		
 		FornecedorDAO dao = context.getBean(FornecedorDAO.class); 
@@ -404,7 +414,8 @@ public class EstoqueWebService {
 		
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="criarProduto")
+	@WebResult(name="fornecedorId")
 	public Long criarProduto(@WebParam(name="produto")ProdutoDTO produtoDTO)throws EstoqueWebServiceException{
 		
 		ProdutoFacade facade = context.getBean(ProdutoFacade.class); 
@@ -426,7 +437,7 @@ public class EstoqueWebService {
 		return null; 
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="removerProduto")
 	public void removerProduto(@WebParam(name="id")Long produtoId)throws EstoqueWebServiceException{
 		
 		
@@ -446,7 +457,8 @@ public class EstoqueWebService {
 		
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="buscarProduto")
+	@WebResult(name="produto")
 	public ProdutoDTO buscarProduto(@WebParam(name="id")Long produtoId)throws EstoqueWebServiceException{
 		
 		ProdutoDAO dao = context.getBean(ProdutoDAO.class); 
@@ -474,7 +486,7 @@ public class EstoqueWebService {
 		return null;
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="alterarProduto")
 	public void alterarProduto(@WebParam(name="produto")ProdutoDTO produtoDTO)throws EstoqueWebServiceException{
 		
 		ProdutoFacade facade = context.getBean(ProdutoFacade.class); 
@@ -492,7 +504,8 @@ public class EstoqueWebService {
 		
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="listarProdutos")
+	@WebResult(name="produtos")
 	public List<ProdutoDTO> listarProdutos()throws EstoqueWebServiceException{
 		
 		ProdutoDAO dao = context.getBean(ProdutoDAO.class); 
@@ -518,7 +531,7 @@ public class EstoqueWebService {
 		return null; 
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="registarEntadaDeProduto")
 	public void registrarEntradaDeProduto(@WebParam(name="produtoId")Long produtoId, 
 			@WebParam(name="quantidade")Integer quantidade)	throws EstoqueWebServiceException{
 		
@@ -536,7 +549,7 @@ public class EstoqueWebService {
 		
 	}
 	
-	@WebMethod
+	@WebMethod(operationName="registarSaidaDeProduto")
 	public void registrarSaidaDeProduto(@WebParam(name="produtoId")Long produtoId, 
 			@WebParam(name="quantidade")Integer quantidade)throws EstoqueWebServiceException{
 		
@@ -558,9 +571,12 @@ public class EstoqueWebService {
 		}
 		
 	}
-		
-	public List<MovimentacaoDTO> listarMovimentacoesDoProdutoPorPeriodo(Long produtoId,Date dataInicial, Date dataFinal)
-	throws EstoqueWebServiceException{
+	
+	@WebMethod(operationName="listarMovimentacoesDoProdutoPorPeriodo")
+	@WebResult(name="movimentacoes")
+	public List<MovimentacaoDTO> listarMovimentacoesDoProdutoPorPeriodo(@WebParam(name="produtoId")Long produtoId,
+			@WebParam(name="dataHoraInicial")Date dataInicial, @WebParam(name="dataHoraFinal")Date dataFinal)
+					throws EstoqueWebServiceException{
 		
 		MovimentacaoDAO dao = context.getBean(MovimentacaoDAO.class); 
 		
@@ -581,7 +597,9 @@ public class EstoqueWebService {
 		return null; 
 	}
 	
-	public List<MovimentacaoDTO> listarMovimentacoesDoProduto(Long produtoId)throws EstoqueWebServiceException{
+	@WebMethod(operationName="listarMovimentacoesDoProduto")
+	@WebResult(name="movimentacoes")
+	public List<MovimentacaoDTO> listarMovimentacoesDoProduto(@WebParam(name="id")Long produtoId)throws EstoqueWebServiceException{
 		
 		MovimentacaoDAO dao = context.getBean(MovimentacaoDAO.class); 
 		
@@ -600,7 +618,9 @@ public class EstoqueWebService {
 		return null; 
 	}
 	
-	public List<MovimentacaoDTO> listarMovimentacoesNoEstoque(Long estoqueId)throws EstoqueWebServiceException{
+	@WebMethod(operationName="listarMovimentacoesNoEstoque")
+	@WebResult(name="movimentacoes")
+	public List<MovimentacaoDTO> listarMovimentacoesNoEstoque(@WebParam(name="id")Long estoqueId)throws EstoqueWebServiceException{
 		
 		MovimentacaoDAO dao = context.getBean(MovimentacaoDAO.class); 
 		
@@ -619,8 +639,10 @@ public class EstoqueWebService {
 		return null; 
 	}
 	
-	public List<MovimentacaoDTO> listarMovimentacoesNoEstoquePorPeriodo(Long estoqueId, Date dataInicial, Date dataFinal)
-	throws EstoqueWebServiceException{
+	@WebMethod(operationName="listarMovimentacoesNoEstoquePorPeriodo")
+	@WebResult(name="movimentacoes")
+	public List<MovimentacaoDTO> listarMovimentacoesNoEstoquePorPeriodo(@WebParam(name="estoqueId")Long estoqueId, 
+			@WebParam(name="dataHoraInicial")Date dataInicial,@WebParam(name="dataHoraFinal")Date dataFinal)throws EstoqueWebServiceException{
 		
 		MovimentacaoDAO dao = context.getBean(MovimentacaoDAO.class); 
 		

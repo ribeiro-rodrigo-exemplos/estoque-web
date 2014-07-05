@@ -1,7 +1,13 @@
 package com.inove.estoqueweb.dto;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class CategoriaDTO {
 
+	
 	private Long id; 
 	private String nome; 
 	private String descricao;
