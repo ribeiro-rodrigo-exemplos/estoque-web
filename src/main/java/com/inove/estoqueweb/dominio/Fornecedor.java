@@ -27,7 +27,7 @@ public class Fornecedor {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id; 
-	@OneToMany(mappedBy="id",fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="fornecedor",fetch=FetchType.LAZY)
 	private List<Produto> produtos; 
 	
 	@Column(name="telefone",nullable=true)

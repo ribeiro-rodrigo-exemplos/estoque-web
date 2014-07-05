@@ -15,7 +15,7 @@ public class ProdutoDTOConversor implements DTOConversor<ProdutoDTO,Produto> {
 
 	public ProdutoDTO converterDominio(Produto produto){
 	
-		ProdutoDTO dto = new ProdutoDTO(); 
+		ProdutoDTO dto = new ProdutoDTO(produto.getId()); 
 		
 		if(produto.getCategoria()!=null)
 			dto.setCategoriaId(produto.getCategoria().getId());
@@ -28,6 +28,7 @@ public class ProdutoDTOConversor implements DTOConversor<ProdutoDTO,Produto> {
 		dto.setNome(produto.getNome());
 		dto.setQuantidadeAtual(produto.getQuantidadeAtual());
 		dto.setQuantidadeMinima(produto.getQuantidadeMinima());
+		
 	
 		return dto; 
 	}

@@ -3,7 +3,9 @@ package com.inove.estoqueweb.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import com.inove.estoqueweb.dominio.Estoque;
@@ -11,6 +13,7 @@ import com.inove.estoqueweb.dominio.Movimentacao;
 import com.inove.estoqueweb.dominio.Produto;
 
 @Repository
+@Scope("prototype")
 public class MovimentacaoDAO extends GenericoDAO<Movimentacao> {
 
 	@Autowired
@@ -19,31 +22,54 @@ public class MovimentacaoDAO extends GenericoDAO<Movimentacao> {
 		super(fabrica);
 	}
 	
-	public List<Movimentacao> listarMovimentacoesDoProdutoPorPeriodo(Produto produto,Date dataInicial, Date dataFinal)
+	public List<Movimentacao> listarMovimentacoesDoProdutoPorPeriodo(Long produtoId,Date dataHoraInicial, Date dataHoraFinal)
 	throws DAOException{
 		
-		return null; 
-	}
-	
-	public List<Movimentacao> listarMovimentacoesDoProduto(Produto produto)throws DAOException{
+		Query query = session.createQuery("from Movimentacao e where e.produto.id=:produtoId and (e.dataHora>=:dataHoraInicial and e.dataHora<=:dataHoraFinal)");
 		
-		return null; 
-	}
-	
-	public List<Movimentacao> listarMovimentacoesNoEstoque(Estoque estoque)throws DAOException{
+		query.setParameter("produtoId",produtoId);
+		query.setParameter("dataHoraInicial",dataHoraInicial); 
+		query.setParameter("dataHoraFinal",dataHoraFinal); 
 		
-		return null; 
+		List<Movimentacao> movimentacoes = query.list(); 
+		
+		return movimentacoes; 
 	}
 	
-	public List<Movimentacao> listarMovimentacoesNoEstoquePorPeriodo(Estoque estoque, Date dataInicial, Date dataFinal)
+	public List<Movimentacao> listarMovimentacoesDoProduto(Long produtoId)throws DAOException{
+		
+		Query query = session.createQuery("from Movimentacao e where e.produto.id=:produtoId"); 
+		
+		query.setParameter("produtoId",produtoId);
+		
+		List<Movimentacao> movimentacoes = query.list(); 
+		
+		return movimentacoes; 
+	}
+	
+	public List<Movimentacao> listarMovimentacoesNoEstoque(Long estoqueId)throws DAOException{
+		
+		Query query = session.createQuery("from Movimentacao e where e.estoque.id=:estoqueId"); 
+		
+		query.setParameter("estoqueId", estoqueId);
+		
+		List<Movimentacao> movimentacoes = query.list(); 
+		
+		return movimentacoes; 
+	}
+	
+	public List<Movimentacao> listarMovimentacoesNoEstoquePorPeriodo(Long estoqueId, Date dataHoraInicial, Date dataHoraFinal)
 	throws DAOException{
 		
-		return null; 
-	}
-	
-	public List<Movimentacao> listarMovimentacoesDoProdutoNoEstoque(Estoque estoque, Produto produto)throws DAOException{
+		Query query = session.createQuery("from Movimentacao e where e.estoque.id=:estoqueId and (e.dataHora between :dataHoraInicial and :dataHoraFinal)"); 
 		
-		return null; 
+		query.setParameter("estoqueId",estoqueId); 
+		query.setParameter("dataHoraInicial",dataHoraInicial); 
+		query.setParameter("dataHoraFinal",dataHoraFinal); 
+		
+		List<Movimentacao> movimentacoes = query.list(); 
+		
+		return movimentacoes; 
 	}
-	 
+		 
 }

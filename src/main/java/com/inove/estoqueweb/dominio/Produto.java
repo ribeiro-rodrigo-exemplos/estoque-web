@@ -106,4 +106,14 @@ public class Produto {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	} 
+	
+	public void adicionarQuantidade(Integer quantidade){
+		
+		this.quantidadeAtual+=quantidade; 
+	}
+	
+	public void removerQuantidade(Integer quantidade){
+		
+		this.quantidadeAtual-=quantidade; 
+	}
 }

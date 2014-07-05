@@ -24,7 +24,7 @@ public class FornecedorFacade {
 		
 		fornecedorDAO.iniciarTransacao();
 		fornecedorDAO.salvar(fornecedor);
-		fornecedorDAO.finalizarTransacao();
+		fornecedorDAO.finalizarTransacaoEFecharConexao();
 		
 		return fornecedor.getId();  
 		
@@ -47,6 +47,8 @@ public class FornecedorFacade {
 			
 		}
 		
+		fornecedorDAO.fecharConexao();
+		
 		
 	}
 	
@@ -54,19 +56,22 @@ public class FornecedorFacade {
 		
 		Fornecedor fornecedorPesquisado = fornecedorDAO.buscar(Fornecedor.class,fornecedor.getId());
 		
-		if(fornecedorPesquisado==null)
-			return; 
+		if(fornecedorPesquisado==null){
+			 
+			fornecedorPesquisado.setCnpj(fornecedor.getCnpj());
+			fornecedorPesquisado.setCpf(fornecedor.getCpf());
+			fornecedorPesquisado.setEmail(fornecedor.getEmail());
+			fornecedorPesquisado.setEndereco(fornecedor.getEndereco());
+			fornecedorPesquisado.setRazaoSocial(fornecedor.getRazaoSocial());
+			fornecedorPesquisado.setTelefone(fornecedor.getTelefone());
 		
-		fornecedorPesquisado.setCnpj(fornecedor.getCnpj());
-		fornecedorPesquisado.setCpf(fornecedor.getCpf());
-		fornecedorPesquisado.setEmail(fornecedor.getEmail());
-		fornecedorPesquisado.setEndereco(fornecedor.getEndereco());
-		fornecedorPesquisado.setRazaoSocial(fornecedor.getRazaoSocial());
-		fornecedorPesquisado.setTelefone(fornecedor.getTelefone());
+			fornecedorDAO.iniciarTransacao();
+			fornecedorDAO.alterar(fornecedorPesquisado);
+			fornecedorDAO.finalizarTransacao();
 		
-		fornecedorDAO.iniciarTransacao();
-		fornecedorDAO.alterar(fornecedorPesquisado);
-		fornecedorDAO.finalizarTransacao();
+		}
+		
+		fornecedorDAO.fecharConexao();
 		
 		
 	}

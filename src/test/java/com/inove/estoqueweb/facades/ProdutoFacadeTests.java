@@ -14,6 +14,7 @@ import com.inove.estoqueweb.dao.EstoqueDAO;
 import com.inove.estoqueweb.dao.FabricaDeSessao;
 import com.inove.estoqueweb.dao.FabricaDeSessaoImpl;
 import com.inove.estoqueweb.dao.FornecedorDAO;
+import com.inove.estoqueweb.dao.MovimentacaoDAO;
 import com.inove.estoqueweb.dao.ProdutoDAO;
 import com.inove.estoqueweb.testdatabuilders.ProdutoDataBuilder;
 
@@ -24,6 +25,7 @@ public class ProdutoFacadeTests {
 	private CategoriaDAO categoriaDAO; 
 	private EstoqueDAO estoqueDAO; 
 	private FornecedorDAO fornecedorDAO; 
+	private MovimentacaoDAO movimentacaoDAO; 
 	private ProdutoFacade facade; 
 	private ProdutoDataBuilder produtoBuilder; 
 	private static ApplicationContext context; 
@@ -45,7 +47,8 @@ public class ProdutoFacadeTests {
 		categoriaDAO = new CategoriaDAO(fabricaDeSessao); 
 		estoqueDAO = new EstoqueDAO(fabricaDeSessao); 
 		fornecedorDAO = new FornecedorDAO(fabricaDeSessao);
-		facade = new ProdutoFacade(produtoDAO,categoriaDAO,estoqueDAO,fornecedorDAO); 
+		movimentacaoDAO = new MovimentacaoDAO(fabricaDeSessao); 
+		facade = new ProdutoFacade(produtoDAO,categoriaDAO,estoqueDAO,fornecedorDAO,movimentacaoDAO); 
 		produtoDAO.iniciarTransacao(); 
 		categoriaDAO.iniciarTransacao();
 		estoqueDAO.iniciarTransacao();

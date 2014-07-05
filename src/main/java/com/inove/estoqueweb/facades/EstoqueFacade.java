@@ -26,7 +26,7 @@ public class EstoqueFacade {
 		
 		estoqueDAO.salvar(estoque);
 		
-		estoqueDAO.finalizarTransacao();
+		estoqueDAO.finalizarTransacaoEFecharConexao();
 		
 		return estoque.getId(); 
 		
@@ -41,12 +41,15 @@ public class EstoqueFacade {
 		
 		Estoque estoque = estoqueDAO.buscar(Estoque.class, id); 
 		
-		if(estoque==null)
-			return; 
+		if(estoque!=null){
+			
+			estoqueDAO.iniciarTransacao();
+			estoqueDAO.remover(estoque);
+			estoqueDAO.finalizarTransacao();
 		
-		estoqueDAO.iniciarTransacao();
-		estoqueDAO.remover(estoque);
-		estoqueDAO.finalizarTransacao();
+		}
+		
+		estoqueDAO.fecharConexao();
 		
 	}
 	
@@ -54,15 +57,19 @@ public class EstoqueFacade {
 		
 		Estoque estoquePesquisado = estoqueDAO.buscar(Estoque.class,estoque.getId()); 
 		
-		if(estoquePesquisado==null)
-			return; 
+		if(estoquePesquisado!=null){
+			
 		
-		estoquePesquisado.setDescricao(estoque.getDescricao());
-		estoquePesquisado.setNome(estoque.getNome());
+			estoquePesquisado.setDescricao(estoque.getDescricao());
+			estoquePesquisado.setNome(estoque.getNome());
 		
-		estoqueDAO.iniciarTransacao();
-		estoqueDAO.alterar(estoquePesquisado);
-		estoqueDAO.finalizarTransacao();
+			estoqueDAO.iniciarTransacao();
+			estoqueDAO.alterar(estoquePesquisado);
+			estoqueDAO.finalizarTransacao();
+		
+		}
+		
+		estoqueDAO.fecharConexao();
 		
 	
 	}

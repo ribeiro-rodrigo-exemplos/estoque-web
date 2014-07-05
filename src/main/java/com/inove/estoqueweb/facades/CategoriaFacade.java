@@ -24,7 +24,7 @@ public class CategoriaFacade {
 		
 		categoriaDAO.iniciarTransacao();
 		categoriaDAO.salvar(categoria);
-		categoriaDAO.finalizarTransacao();
+		categoriaDAO.finalizarTransacaoEFecharConexao();
 
 		
 		return categoria.getId();  
@@ -47,7 +47,8 @@ public class CategoriaFacade {
 			categoriaDAO.finalizarTransacao();
 			
 		}
-			
+		
+		categoriaDAO.fecharConexao();
 		
 	}
 	
@@ -55,15 +56,18 @@ public class CategoriaFacade {
 		
 		Categoria categoriaPesquisada = categoriaDAO.buscar(Categoria.class,categoria.getId()); 
 		
-		if(categoriaPesquisada==null)
-			return; 
+		if(categoriaPesquisada==null){
+			
+			categoriaPesquisada.setDescricao(categoria.getDescricao());
+			categoriaPesquisada.setNome(categoria.getNome());
 		
-		categoriaPesquisada.setDescricao(categoria.getDescricao());
-		categoriaPesquisada.setNome(categoria.getNome());
+			categoriaDAO.iniciarTransacao();
+			categoriaDAO.alterar(categoriaPesquisada);
+			categoriaDAO.finalizarTransacao();
 		
-		categoriaDAO.iniciarTransacao();
-		categoriaDAO.alterar(categoriaPesquisada);
-		categoriaDAO.finalizarTransacao();
+		}
+		
+		categoriaDAO.fecharConexao();
 			
 	}
 	

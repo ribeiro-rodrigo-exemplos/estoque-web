@@ -89,18 +89,30 @@ public class GenericoDAO<T> {
 			
 			session.getTransaction().commit();
 			session.flush();
-			session.close(); 
+
 		}
 		
 	}
 	
+	public void finalizarTransacaoEFecharConexao(){
+		
+		finalizarTransacao();
+		fecharConexao(); 
+	}
+	
+	public void fecharConexao(){
+		
+		if(session.isOpen())			
+			session.close(); 
+
+	}
+	
 	public void reverterTransacao(){
 		
-		if(session.getTransaction().isActive()){
-			
+		if(session.getTransaction().isActive())
 			session.getTransaction().rollback();
-			session.close(); 
-		}
+
+		
 		
 		
 	}

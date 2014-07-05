@@ -25,7 +25,7 @@ public class Estoque{
 	@GeneratedValue(strategy=GenerationType.IDENTITY) 
 	private Long id; 
 	
-	@OneToMany(mappedBy="id",fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="estoqueAtual",fetch=FetchType.LAZY)
 	private List<Produto> produtos; 
 	
 	public Estoque(Long id){
