@@ -56,7 +56,7 @@ public class FornecedorFacade {
 		
 		Fornecedor fornecedorPesquisado = fornecedorDAO.buscar(Fornecedor.class,fornecedor.getId());
 		
-		if(fornecedorPesquisado==null){
+		if(fornecedorPesquisado!=null){
 			 
 			fornecedorPesquisado.setCnpj(fornecedor.getCnpj());
 			fornecedorPesquisado.setCpf(fornecedor.getCpf());

@@ -88,7 +88,7 @@ public class ProdutoFacade {
 		Fornecedor fornecedorPesquisado = fornecedorDAO.buscar(Fornecedor.class,produto.getFornecedor().getId()); 
 		Estoque estoquePesquisado = estoqueDAO.buscar(Estoque.class,produto.getEstoqueAtual().getId()); 
 		
-		if(produtoPesquisado==null){
+		if(produtoPesquisado!=null){
 			
 		
 			produtoPesquisado.setCategoria(categoriaPesquisada);

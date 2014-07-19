@@ -56,7 +56,7 @@ public class CategoriaFacade {
 		
 		Categoria categoriaPesquisada = categoriaDAO.buscar(Categoria.class,categoria.getId()); 
 		
-		if(categoriaPesquisada==null){
+		if(categoriaPesquisada!=null){
 			
 			categoriaPesquisada.setDescricao(categoria.getDescricao());
 			categoriaPesquisada.setNome(categoria.getNome());
