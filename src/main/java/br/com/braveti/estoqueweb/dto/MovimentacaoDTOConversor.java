@@ -1,11 +1,11 @@
-package com.inove.estoqueweb.dto;
+package br.com.braveti.estoqueweb.dto;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.inove.estoqueweb.dominio.Movimentacao;
+import br.com.braveti.estoqueweb.dominio.Movimentacao;
 
 @Component
 public class MovimentacaoDTOConversor implements DTOConversor<MovimentacaoDTO,Movimentacao> {

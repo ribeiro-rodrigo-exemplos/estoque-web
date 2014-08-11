@@ -1,4 +1,4 @@
-package com.inove.estoqueweb.dominio;
+package br.com.braveti.estoqueweb.dominio;
 
 import javax.persistence.Entity;
 

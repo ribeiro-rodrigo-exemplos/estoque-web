@@ -1,12 +1,20 @@
-package com.inove.estoqueweb.dao;
+package br.com.braveti.estoqueweb.dao;
 
 import org.junit.*; 
+
 import static org.junit.Assert.*; 
+
 import org.hibernate.*; 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.ApplicationContext;
 
-import com.inove.estoqueweb.dominio.*;
+import br.com.braveti.estoqueweb.dao.ConexaoBancoDeDados;
+import br.com.braveti.estoqueweb.dao.DAOException;
+import br.com.braveti.estoqueweb.dao.DataSource;
+import br.com.braveti.estoqueweb.dao.FabricaDeSessao;
+import br.com.braveti.estoqueweb.dao.FabricaDeSessaoImpl;
+import br.com.braveti.estoqueweb.dao.GenericoDAO;
+import br.com.braveti.estoqueweb.dominio.*;
 
 public class GenericDAOTests {
 

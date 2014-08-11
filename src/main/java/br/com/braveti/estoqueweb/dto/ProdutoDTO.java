@@ -1,4 +1,4 @@
-package com.inove.estoqueweb.dto;
+package br.com.braveti.estoqueweb.dto;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

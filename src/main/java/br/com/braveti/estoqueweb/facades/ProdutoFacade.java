@@ -1,21 +1,21 @@
-package com.inove.estoqueweb.facades;
+package br.com.braveti.estoqueweb.facades;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.inove.estoqueweb.dao.CategoriaDAO;
-import com.inove.estoqueweb.dao.DAOException;
-import com.inove.estoqueweb.dao.EstoqueDAO;
-import com.inove.estoqueweb.dao.FornecedorDAO;
-import com.inove.estoqueweb.dao.MovimentacaoDAO;
-import com.inove.estoqueweb.dao.ProdutoDAO;
-import com.inove.estoqueweb.dominio.Categoria;
-import com.inove.estoqueweb.dominio.Estoque;
-import com.inove.estoqueweb.dominio.Fornecedor;
-import com.inove.estoqueweb.dominio.Movimentacao;
-import com.inove.estoqueweb.dominio.Produto;
-import com.inove.estoqueweb.dominio.TipoMovimentacao;
+import br.com.braveti.estoqueweb.dao.CategoriaDAO;
+import br.com.braveti.estoqueweb.dao.DAOException;
+import br.com.braveti.estoqueweb.dao.EstoqueDAO;
+import br.com.braveti.estoqueweb.dao.FornecedorDAO;
+import br.com.braveti.estoqueweb.dao.MovimentacaoDAO;
+import br.com.braveti.estoqueweb.dao.ProdutoDAO;
+import br.com.braveti.estoqueweb.dominio.Categoria;
+import br.com.braveti.estoqueweb.dominio.Estoque;
+import br.com.braveti.estoqueweb.dominio.Fornecedor;
+import br.com.braveti.estoqueweb.dominio.Movimentacao;
+import br.com.braveti.estoqueweb.dominio.Produto;
+import br.com.braveti.estoqueweb.dominio.TipoMovimentacao;
 
 @Scope("prototype")
 @Component

@@ -1,4 +1,4 @@
-package com.inove.estoqueweb.webservice;
+package br.com.braveti.estoqueweb.webservice;
 
 public class EstoqueWebServiceFault {
 

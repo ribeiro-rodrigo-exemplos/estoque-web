@@ -5,15 +5,15 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-	<context:component-scan base-package="com.inove.estoqueweb"/>
+	<context:component-scan base-package="br.com.braveti.estoqueweb"/>
 	
-	<bean id="dataSource" class="com.inove.estoqueweb.dao.DataSource">
+	<bean id="dataSource" class="br.com.braveti.estoqueweb.dao.DataSource">
 		<constructor-arg>
-			<ref bean="producaoConexao"/>
+			<ref bean="testeConexao"/>
 		</constructor-arg>
 	</bean>
 	
-	<bean id="producaoConexao" class="com.inove.estoqueweb.dao.ConexaoBancoDeDados">
+	<bean id="producaoConexao" class="br.com.braveti.estoqueweb.dao.ConexaoBancoDeDados">
 		<constructor-arg>
 			<props>
 				<prop key="hibernate.connection.driver_class">org.postgresql.Driver</prop>
@@ -25,7 +25,7 @@
 		</constructor-arg>
 	</bean>
 	
-	<bean id="testeConexao" class="com.inove.estoqueweb.dao.ConexaoBancoDeDados">
+	<bean id="testeConexao" class="br.com.braveti.estoqueweb.dao.ConexaoBancoDeDados">
 		<constructor-arg>
 			<props>
 				<prop key="hibernate.connection.driver_class">org.hsqldb.jdbcDriver</prop>

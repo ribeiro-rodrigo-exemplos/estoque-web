@@ -1,4 +1,4 @@
-package com.inove.estoqueweb.dto;
+package br.com.braveti.estoqueweb.dto;
 
 import java.util.List;
 

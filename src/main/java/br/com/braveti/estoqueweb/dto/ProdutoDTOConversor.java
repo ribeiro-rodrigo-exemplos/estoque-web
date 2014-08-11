@@ -1,14 +1,14 @@
-package com.inove.estoqueweb.dto;
+package br.com.braveti.estoqueweb.dto;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.inove.estoqueweb.dominio.Categoria;
-import com.inove.estoqueweb.dominio.Estoque;
-import com.inove.estoqueweb.dominio.Fornecedor;
-import com.inove.estoqueweb.dominio.Produto;
+import br.com.braveti.estoqueweb.dominio.Categoria;
+import br.com.braveti.estoqueweb.dominio.Estoque;
+import br.com.braveti.estoqueweb.dominio.Fornecedor;
+import br.com.braveti.estoqueweb.dominio.Produto;
 
 @Component
 public class ProdutoDTOConversor implements DTOConversor<ProdutoDTO,Produto> {

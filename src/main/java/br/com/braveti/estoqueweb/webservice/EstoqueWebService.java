@@ -1,4 +1,4 @@
-package com.inove.estoqueweb.webservice;
+package br.com.braveti.estoqueweb.webservice;
 
 import java.util.Date;
 import java.util.List;
@@ -11,32 +11,32 @@ import javax.jws.WebService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.inove.estoqueweb.dao.CategoriaDAO;
-import com.inove.estoqueweb.dao.DAOException;
-import com.inove.estoqueweb.dao.EstoqueDAO;
-import com.inove.estoqueweb.dao.FornecedorDAO;
-import com.inove.estoqueweb.dao.MovimentacaoDAO;
-import com.inove.estoqueweb.dao.ProdutoDAO;
-import com.inove.estoqueweb.dominio.Categoria;
-import com.inove.estoqueweb.dominio.Estoque;
-import com.inove.estoqueweb.dominio.Fornecedor;
-import com.inove.estoqueweb.dominio.Movimentacao;
-import com.inove.estoqueweb.dominio.Produto;
-import com.inove.estoqueweb.dto.CategoriaDTO;
-import com.inove.estoqueweb.dto.CategoriaDTOConversor;
-import com.inove.estoqueweb.dto.DTOConversor;
-import com.inove.estoqueweb.dto.EstoqueDTO;
-import com.inove.estoqueweb.dto.EstoqueDTOConversor;
-import com.inove.estoqueweb.dto.FornecedorDTO;
-import com.inove.estoqueweb.dto.FornecedorDTOConversor;
-import com.inove.estoqueweb.dto.MovimentacaoDTO;
-import com.inove.estoqueweb.dto.MovimentacaoDTOConversor;
-import com.inove.estoqueweb.dto.ProdutoDTO;
-import com.inove.estoqueweb.dto.ProdutoDTOConversor;
-import com.inove.estoqueweb.facades.CategoriaFacade;
-import com.inove.estoqueweb.facades.EstoqueFacade;
-import com.inove.estoqueweb.facades.FornecedorFacade;
-import com.inove.estoqueweb.facades.ProdutoFacade;
+import br.com.braveti.estoqueweb.dao.CategoriaDAO;
+import br.com.braveti.estoqueweb.dao.DAOException;
+import br.com.braveti.estoqueweb.dao.EstoqueDAO;
+import br.com.braveti.estoqueweb.dao.FornecedorDAO;
+import br.com.braveti.estoqueweb.dao.MovimentacaoDAO;
+import br.com.braveti.estoqueweb.dao.ProdutoDAO;
+import br.com.braveti.estoqueweb.dominio.Categoria;
+import br.com.braveti.estoqueweb.dominio.Estoque;
+import br.com.braveti.estoqueweb.dominio.Fornecedor;
+import br.com.braveti.estoqueweb.dominio.Movimentacao;
+import br.com.braveti.estoqueweb.dominio.Produto;
+import br.com.braveti.estoqueweb.dto.CategoriaDTO;
+import br.com.braveti.estoqueweb.dto.CategoriaDTOConversor;
+import br.com.braveti.estoqueweb.dto.DTOConversor;
+import br.com.braveti.estoqueweb.dto.EstoqueDTO;
+import br.com.braveti.estoqueweb.dto.EstoqueDTOConversor;
+import br.com.braveti.estoqueweb.dto.FornecedorDTO;
+import br.com.braveti.estoqueweb.dto.FornecedorDTOConversor;
+import br.com.braveti.estoqueweb.dto.MovimentacaoDTO;
+import br.com.braveti.estoqueweb.dto.MovimentacaoDTOConversor;
+import br.com.braveti.estoqueweb.dto.ProdutoDTO;
+import br.com.braveti.estoqueweb.dto.ProdutoDTOConversor;
+import br.com.braveti.estoqueweb.facades.CategoriaFacade;
+import br.com.braveti.estoqueweb.facades.EstoqueFacade;
+import br.com.braveti.estoqueweb.facades.FornecedorFacade;
+import br.com.braveti.estoqueweb.facades.ProdutoFacade;
 
 
 @WebService(name="estoque-web")
@@ -69,14 +69,14 @@ public class EstoqueWebService {
 			throws EstoqueWebServiceException{
 		
 		
-		CategoriaFacade categoriaFacade = context.getBean(CategoriaFacade.class); 
+		CategoriaFacade categoriaFacade = context.getBean(CategoriaFacade.class);
 		
-		Categoria categoria = categoriaConversor.converterTransferencia(categoriaDTO); 
+		Categoria categoria = categoriaConversor.converterTransferencia(categoriaDTO);
 		
 		try{
 		
 			Long id = categoriaFacade.criarCategoria(categoria);
-			return id; 
+			return id;
 		
 		}
 		catch(DAOException e){
@@ -84,7 +84,7 @@ public class EstoqueWebService {
 			dispararExcecao(e);
 		}
 		
-		return null; 
+		return null;
 	}
 	
 	@WebMethod(operationName="removerCategoria")

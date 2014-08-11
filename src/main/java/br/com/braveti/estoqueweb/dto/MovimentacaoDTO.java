@@ -1,11 +1,11 @@
-package com.inove.estoqueweb.dto;
+package br.com.braveti.estoqueweb.dto;
 
 import java.util.*; 
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
-import com.inove.estoqueweb.dominio.TipoMovimentacao;
+import br.com.braveti.estoqueweb.dominio.TipoMovimentacao;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MovimentacaoDTO {

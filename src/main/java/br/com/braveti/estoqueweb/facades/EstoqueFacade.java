@@ -1,12 +1,12 @@
-package com.inove.estoqueweb.facades;
+package br.com.braveti.estoqueweb.facades;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.inove.estoqueweb.dao.DAOException;
-import com.inove.estoqueweb.dao.EstoqueDAO;
-import com.inove.estoqueweb.dominio.Estoque;
+import br.com.braveti.estoqueweb.dao.DAOException;
+import br.com.braveti.estoqueweb.dao.EstoqueDAO;
+import br.com.braveti.estoqueweb.dominio.Estoque;
 
 @Scope("prototype")
 @Component

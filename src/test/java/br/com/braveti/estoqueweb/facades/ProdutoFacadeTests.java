@@ -1,4 +1,4 @@
-package com.inove.estoqueweb.facades;
+package br.com.braveti.estoqueweb.facades;
 
 import org.junit.After;
 import org.junit.Before;
@@ -7,15 +7,17 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.inove.estoqueweb.dao.CategoriaDAO;
-import com.inove.estoqueweb.dao.ConexaoBancoDeDados;
-import com.inove.estoqueweb.dao.DataSource;
-import com.inove.estoqueweb.dao.EstoqueDAO;
-import com.inove.estoqueweb.dao.FabricaDeSessao;
-import com.inove.estoqueweb.dao.FabricaDeSessaoImpl;
-import com.inove.estoqueweb.dao.FornecedorDAO;
-import com.inove.estoqueweb.dao.MovimentacaoDAO;
-import com.inove.estoqueweb.dao.ProdutoDAO;
+import br.com.braveti.estoqueweb.dao.CategoriaDAO;
+import br.com.braveti.estoqueweb.dao.ConexaoBancoDeDados;
+import br.com.braveti.estoqueweb.dao.DataSource;
+import br.com.braveti.estoqueweb.dao.EstoqueDAO;
+import br.com.braveti.estoqueweb.dao.FabricaDeSessao;
+import br.com.braveti.estoqueweb.dao.FabricaDeSessaoImpl;
+import br.com.braveti.estoqueweb.dao.FornecedorDAO;
+import br.com.braveti.estoqueweb.dao.MovimentacaoDAO;
+import br.com.braveti.estoqueweb.dao.ProdutoDAO;
+import br.com.braveti.estoqueweb.facades.ProdutoFacade;
+
 import com.inove.estoqueweb.testdatabuilders.ProdutoDataBuilder;
 
 public class ProdutoFacadeTests {

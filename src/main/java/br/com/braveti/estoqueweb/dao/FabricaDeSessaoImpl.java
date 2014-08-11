@@ -1,4 +1,4 @@
-package com.inove.estoqueweb.dao;
+package br.com.braveti.estoqueweb.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.inove.estoqueweb.dominio.Categoria;
-import com.inove.estoqueweb.dominio.Estoque;
-import com.inove.estoqueweb.dominio.Fornecedor;
-import com.inove.estoqueweb.dominio.Movimentacao;
-import com.inove.estoqueweb.dominio.Produto;
-import com.inove.estoqueweb.dominio.TipoMovimentacao;
+import br.com.braveti.estoqueweb.dominio.Categoria;
+import br.com.braveti.estoqueweb.dominio.Estoque;
+import br.com.braveti.estoqueweb.dominio.Fornecedor;
+import br.com.braveti.estoqueweb.dominio.Movimentacao;
+import br.com.braveti.estoqueweb.dominio.Produto;
+import br.com.braveti.estoqueweb.dominio.TipoMovimentacao;
 
 @Service
 public class FabricaDeSessaoImpl implements FabricaDeSessao {

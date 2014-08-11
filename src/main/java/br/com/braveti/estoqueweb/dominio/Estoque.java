@@ -1,4 +1,4 @@
-package com.inove.estoqueweb.dominio;
+package br.com.braveti.estoqueweb.dominio;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
-import com.inove.estoqueweb.dto.EstoqueDTO;
+import br.com.braveti.estoqueweb.dto.EstoqueDTO;
 
 @Entity
 public class Estoque{

@@ -1,4 +1,4 @@
-package com.inove.estoqueweb.facades;
+package br.com.braveti.estoqueweb.facades;
 
 import org.junit.After;
 import org.junit.Before;
@@ -10,13 +10,14 @@ import static org.junit.Assert.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.inove.estoqueweb.dao.ConexaoBancoDeDados;
-import com.inove.estoqueweb.dao.DAOException;
-import com.inove.estoqueweb.dao.DataSource;
-import com.inove.estoqueweb.dao.FabricaDeSessao;
-import com.inove.estoqueweb.dao.FabricaDeSessaoImpl;
-import com.inove.estoqueweb.dao.FornecedorDAO;
-import com.inove.estoqueweb.dominio.Fornecedor;
+import br.com.braveti.estoqueweb.dao.ConexaoBancoDeDados;
+import br.com.braveti.estoqueweb.dao.DAOException;
+import br.com.braveti.estoqueweb.dao.DataSource;
+import br.com.braveti.estoqueweb.dao.FabricaDeSessao;
+import br.com.braveti.estoqueweb.dao.FabricaDeSessaoImpl;
+import br.com.braveti.estoqueweb.dao.FornecedorDAO;
+import br.com.braveti.estoqueweb.dominio.Fornecedor;
+import br.com.braveti.estoqueweb.facades.FornecedorFacade;
 
 public class FornecedorFacadeTests {
 

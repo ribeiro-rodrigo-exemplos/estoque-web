@@ -3,10 +3,10 @@ package com.inove.estoqueweb.testdatabuilders;
 
 import org.springframework.stereotype.Component;
 
-import com.inove.estoqueweb.dominio.Categoria;
-import com.inove.estoqueweb.dominio.Estoque;
-import com.inove.estoqueweb.dominio.Fornecedor;
-import com.inove.estoqueweb.dominio.Produto;
+import br.com.braveti.estoqueweb.dominio.Categoria;
+import br.com.braveti.estoqueweb.dominio.Estoque;
+import br.com.braveti.estoqueweb.dominio.Fornecedor;
+import br.com.braveti.estoqueweb.dominio.Produto;
 
 
 public class ProdutoDataBuilder {

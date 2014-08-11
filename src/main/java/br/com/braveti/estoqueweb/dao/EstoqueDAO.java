@@ -1,4 +1,4 @@
-package com.inove.estoqueweb.dao;
+package br.com.braveti.estoqueweb.dao;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
-import com.inove.estoqueweb.dominio.Estoque;
+import br.com.braveti.estoqueweb.dominio.Estoque;
 
 @Scope("prototype")
 @Repository

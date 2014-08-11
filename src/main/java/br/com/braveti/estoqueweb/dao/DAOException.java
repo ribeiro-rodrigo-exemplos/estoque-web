@@ -1,4 +1,4 @@
-package com.inove.estoqueweb.dao;
+package br.com.braveti.estoqueweb.dao;
 
 public class DAOException extends Exception {
 
