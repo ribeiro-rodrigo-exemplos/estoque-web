@@ -26,7 +26,9 @@ public class GenericoDAO<T> {
 			
 			
 		}catch(Exception e){
-			  
+
+            reverterTransacao();
+            fecharConexao();
 			throw new DAOException(e.getMessage(),e.getCause()); 
 		}
 		
@@ -41,7 +43,9 @@ public class GenericoDAO<T> {
 			session.delete(objeto);
 			
 		}catch(Exception e){
-			
+
+            reverterTransacao();
+            fecharConexao();
 			throw new DAOException(e.getMessage(),e.getCause()); 
 		}
 		
@@ -56,7 +60,9 @@ public class GenericoDAO<T> {
 			
 		}
 		catch(Exception e){
-			 
+
+            reverterTransacao();
+            fecharConexao();
 			throw new DAOException(e.getMessage(),e.getCause());
 		}
 			
@@ -70,7 +76,9 @@ public class GenericoDAO<T> {
 			
 		}
 		catch(Exception e){
-			
+
+            reverterTransacao();
+            fecharConexao();
 			throw new DAOException(e.getMessage(),e.getCause());
 		}
 		
