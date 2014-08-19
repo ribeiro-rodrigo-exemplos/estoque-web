@@ -128,7 +128,7 @@ public class GenericoDAO<T> {
 	
 	public void reverterTransacao(){
 		
-		if(session.getTransaction().isActive())
+		if(session.isOpen() && session.getTransaction().isActive())
 			session.getTransaction().rollback();
 
 		

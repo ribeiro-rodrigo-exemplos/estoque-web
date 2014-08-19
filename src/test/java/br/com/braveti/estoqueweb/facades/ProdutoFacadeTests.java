@@ -1,5 +1,6 @@
 package br.com.braveti.estoqueweb.facades;
 
+import br.com.braveti.estoqueweb.dao.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -7,15 +8,6 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import br.com.braveti.estoqueweb.dao.CategoriaDAO;
-import br.com.braveti.estoqueweb.dao.ConexaoBancoDeDados;
-import br.com.braveti.estoqueweb.dao.DataSource;
-import br.com.braveti.estoqueweb.dao.EstoqueDAO;
-import br.com.braveti.estoqueweb.dao.FabricaDeSessao;
-import br.com.braveti.estoqueweb.dao.FabricaDeSessaoImpl;
-import br.com.braveti.estoqueweb.dao.FornecedorDAO;
-import br.com.braveti.estoqueweb.dao.MovimentacaoDAO;
-import br.com.braveti.estoqueweb.dao.ProdutoDAO;
 import br.com.braveti.estoqueweb.facades.ProdutoFacade;
 
 import com.inove.estoqueweb.testdatabuilders.ProdutoDataBuilder;
@@ -60,11 +52,18 @@ public class ProdutoFacadeTests {
 	
 	@After
 	public void depois(){
-		
-		produtoDAO.finalizarTransacao();
-		categoriaDAO.finalizarTransacao();
-		estoqueDAO.finalizarTransacao();
-		fornecedorDAO.finalizarTransacao();
+
+        try{
+
+		    produtoDAO.finalizarTransacao();
+		    categoriaDAO.finalizarTransacao();
+		    estoqueDAO.finalizarTransacao();
+		    fornecedorDAO.finalizarTransacao();
+
+        }catch(DAOException e){
+
+            e.printStackTrace();
+        }
 		
 	}
 	

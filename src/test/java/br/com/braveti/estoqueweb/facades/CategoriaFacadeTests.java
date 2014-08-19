@@ -46,8 +46,16 @@ public class CategoriaFacadeTests {
 	
 	@After
 	public void depois(){
-		
-		dao.finalizarTransacao(); 
+
+        try{
+
+		    dao.finalizarTransacao();
+
+        }
+        catch(DAOException e){
+
+            e.printStackTrace();
+        }
 	}
 	
 	@Test
