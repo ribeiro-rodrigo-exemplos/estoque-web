@@ -1,6 +1,10 @@
-target
+target/classes/*
+target/tomcat/conf/*
+target/tomcat/conf/*
+target/tomcat/work/localEngine/localhost/estoque-web/*
 target/
 target/*
+target
 *.war
 *.jar
 *.class
