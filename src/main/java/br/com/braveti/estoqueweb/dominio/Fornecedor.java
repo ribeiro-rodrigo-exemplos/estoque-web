@@ -18,7 +18,7 @@ public class Fornecedor {
 	private String razaoSocial; 
 	@Column(name="email",nullable=true)
 	private String email; 
-	@Column(name="cnpj",nullable=true,unique=true)
+	@Column(name="cnpj",nullable=true)
 	private String cnpj; 
 	@Column(name="cpf",nullable=true)
 	private String cpf; 
