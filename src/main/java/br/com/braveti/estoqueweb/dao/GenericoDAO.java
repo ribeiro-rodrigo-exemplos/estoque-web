@@ -91,21 +91,32 @@ public class GenericoDAO<T> {
 			session.beginTransaction(); 
 	}
 	
-	public void finalizarTransacao(){
-		
-		if(session.getTransaction().isActive()){
-			
-			session.getTransaction().commit();
-			session.flush();
+	public void finalizarTransacao()throws DAOException{
 
-		}
-		
-	}
+        try{
+
+		    if(session.getTransaction().isActive()){
+			
+			    session.getTransaction().commit();
+			    session.flush();
+
+            }
+
+        }
+        catch(Exception e){
+
+                reverterTransacao();
+                fecharConexao();
+                throw new DAOException(e.getMessage(),e.getCause());
+        }
+
+    }
+
 	
-	public void finalizarTransacaoEFecharConexao(){
-		
+	public void finalizarTransacaoEFecharConexao()throws DAOException{
+
 		finalizarTransacao();
-		fecharConexao(); 
+		fecharConexao();
 	}
 	
 	public void fecharConexao(){
@@ -117,7 +128,7 @@ public class GenericoDAO<T> {
 	
 	public void reverterTransacao(){
 		
-		if(session.getTransaction().isActive())
+		if(session.isOpen() && session.getTransaction().isActive())
 			session.getTransaction().rollback();
 
 		

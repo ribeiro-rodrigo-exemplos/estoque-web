@@ -45,8 +45,15 @@ public class FornecedorFacadeTests {
 	
 	@After
 	public void depois(){
-		
-		dao.finalizarTransacao(); 
+
+        try{
+
+		dao.finalizarTransacao();
+
+        }catch(DAOException e){
+
+            e.printStackTrace();
+        }
 	}
 	
 	@Test
