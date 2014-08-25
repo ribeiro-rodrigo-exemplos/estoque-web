@@ -4,6 +4,8 @@ target/tomcat/conf/*
 target/tomcat/work/localEngine/localhost/estoque-web/*
 target/
 target/*
+bin/*
+bin
 target
 *.war
 *.jar
