@@ -1,109 +1,182 @@
 package br.com.braveti.estoqueweb.facades;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.Before;;
 import org.junit.Test;
 
-import static org.junit.Assert.*; 
+import static org.junit.Assert.*;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
+import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
-import br.com.braveti.estoqueweb.dao.ConexaoBancoDeDados;
+import static org.mockito.Mockito.*;
+import  org.mockito.Mock;
+
 import br.com.braveti.estoqueweb.dao.DAOException;
-import br.com.braveti.estoqueweb.dao.DataSource;
-import br.com.braveti.estoqueweb.dao.FabricaDeSessao;
-import br.com.braveti.estoqueweb.dao.FabricaDeSessaoImpl;
 import br.com.braveti.estoqueweb.dao.FornecedorDAO;
 import br.com.braveti.estoqueweb.dominio.Fornecedor;
-import br.com.braveti.estoqueweb.facades.FornecedorFacade;
 
 public class FornecedorFacadeTests {
 
 	private FornecedorFacade fornecedorFacade; 
-	private static FabricaDeSessao fabricaDeSessao; 
+    @Mock
 	private FornecedorDAO dao; 
-	
-	@BeforeClass
-	public static void antesDeTodos(){
-		
-		ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml"); 
-		ConexaoBancoDeDados conexao = context.getBean("testeConexao",ConexaoBancoDeDados.class);
-		DataSource dataSource = new DataSource(conexao); 
-		fabricaDeSessao = new FabricaDeSessaoImpl(dataSource);
-	}
-	
+
 	@Before
 	public void antes(){
 		
-		dao = new FornecedorDAO(fabricaDeSessao); 
+		MockitoAnnotations.initMocks(this);
 		fornecedorFacade = new FornecedorFacade(dao);
-		dao.iniciarTransacao();
-		
+
 	}
 	
-	@After
-	public void depois(){
 
-        try{
-
-		dao.finalizarTransacao();
-
-        }catch(DAOException e){
-
-            e.printStackTrace();
-        }
-	}
-	
 	@Test
-	public void testDeveCriarFornecedor()throws DAOException{
+	public void deveCriarFornecedor()throws DAOException{
 		
 		Fornecedor fornecedor = gerarFornecedor();
+
+        doAnswer(new Answer<Void>(){
+
+            public Void answer(InvocationOnMock invocationOnMock){
+
+                Fornecedor fornecedor = (Fornecedor) invocationOnMock.getArguments()[0];
+
+                fornecedor.setId(1L);
+
+                return null;
+            }
+
+        }).when(dao).salvar(fornecedor);
 		
-		Long id = fornecedorFacade.criarFornecedor(fornecedor); 
+		Long id = fornecedorFacade.criarFornecedor(fornecedor);
+
+        InOrder ordem = inOrder(dao);
+
+        ordem.verify(dao).iniciarTransacao();
+        ordem.verify(dao).salvar(fornecedor);
+        ordem.verify(dao).finalizarTransacaoEFecharConexao();
 		
-		Fornecedor fornecedorPesquisado = dao.buscar(Fornecedor.class, id); 
-		
-		assertEquals(fornecedor.getId(),fornecedorPesquisado.getId());
+		assertEquals(fornecedor.getId(), id);
 	}
+
+    @Test(expected=DAOException.class)
+    public void testDisparoDeExcecaoNaCriacaoDoFornecedor()throws DAOException{
+
+        Fornecedor fornecedor = gerarFornecedor();
+
+        doThrow(DAOException.class).when(dao).salvar(fornecedor);
+
+        fornecedorFacade.criarFornecedor(fornecedor);
+
+
+    }
 
 	
 	@Test
-	public void testDeveRemoverFornecedor()throws DAOException{
+	public void deveRemoverFornecedor()throws DAOException{
 		
-		Fornecedor fornecedor = gerarFornecedor(); 
-		Long id = fornecedorFacade.criarFornecedor(fornecedor); 
-		
-		assertNotNull(id); 
-		
-		fornecedorFacade.removerFornecedor(fornecedor);
-		
-		Fornecedor fornecedorPesquisado = dao.buscar(Fornecedor.class, id); 
-		
-		assertNull(fornecedorPesquisado); 
+		Fornecedor fornecedor = gerarFornecedor();
+        fornecedor.setId(1L);
+
+        Fornecedor fornecedorPesquisado = gerarFornecedor();
+
+        when(dao.buscar(Fornecedor.class,fornecedor.getId())).thenReturn(fornecedorPesquisado);
+
+        fornecedorFacade.removerFornecedor(fornecedor);
+
+        InOrder ordem = inOrder(dao);
+
+        ordem.verify(dao).buscar(Fornecedor.class,fornecedor.getId());
+        ordem.verify(dao).iniciarTransacao();
+        ordem.verify(dao).remover(fornecedorPesquisado);
+        ordem.verify(dao).finalizarTransacao();
+        ordem.verify(dao).fecharConexao();
 		
 	}
+
+    @Test(expected=DAOException.class)
+    public void testDisparoDeExcecaoNaRemocaoDoFornecedor()throws DAOException{
+
+        Fornecedor fornecedorRemovido = gerarFornecedor();
+        fornecedorRemovido.setId(1L);
+        Fornecedor fornecedorPesquisado = gerarFornecedor();
+
+        when(dao.buscar(Fornecedor.class,fornecedorRemovido.getId())).thenReturn(fornecedorPesquisado);
+        doThrow(DAOException.class).when(dao).finalizarTransacao();
+
+        fornecedorFacade.removerFornecedor(fornecedorRemovido);
+
+    }
+
+    @Test
+    public void deveTratarCasoDeRemocaoDeFornecedorInexistente()throws DAOException{
+
+        Fornecedor fornecedor = gerarFornecedor();
+
+        when(dao.buscar(Fornecedor.class,1L)).thenReturn(null);
+
+        fornecedorFacade.removerFornecedor(fornecedor);
+
+        verify(dao, never()).iniciarTransacao();
+        verify(dao,never()).remover(any(Fornecedor.class));
+        verify(dao,never()).finalizarTransacao();
+        verify(dao).fecharConexao();
+
+    }
 	
 	@Test
-	public void testDeveAlterarFornecedor()throws DAOException{
-		
-		String novoEmail = "rodrigo@inove.com"; 
-		
-		Fornecedor fornecedor = gerarFornecedor(); 
-		
-		Long id = fornecedorFacade.criarFornecedor(fornecedor); 
-		
-		assertNotNull(id);
-		
-		fornecedor.setEmail(novoEmail);
-		
-		fornecedorFacade.alterarFornecedor(fornecedor);
-		
-		Fornecedor fornecedorAlterado = dao.buscar(Fornecedor.class, id); 
-		
-		assertEquals(novoEmail,fornecedorAlterado.getEmail()); 
+	public void deveAlterarFornecedor()throws DAOException{
+
+        Fornecedor fornecedorPesquisado = mock(Fornecedor.class);
+        Fornecedor fornecedorAlterado = gerarFornecedor();
+        fornecedorAlterado.setId(1L);
+
+        when(dao.buscar(Fornecedor.class,fornecedorAlterado.getId())).thenReturn(fornecedorPesquisado);
+
+        fornecedorFacade.alterarFornecedor(fornecedorAlterado);
+
+        ArgumentCaptor<String> cnpj = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<String> cpf = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<String> email = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<String> endereco = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<String> razaoSocial = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<String> telefone = ArgumentCaptor.forClass(String.class);
+
+        verify(fornecedorPesquisado).setCnpj(cnpj.capture());
+        verify(fornecedorPesquisado).setCpf(cpf.capture());
+        verify(fornecedorPesquisado).setEmail(email.capture());
+        verify(fornecedorPesquisado).setEndereco(endereco.capture());
+        verify(fornecedorPesquisado).setRazaoSocial(razaoSocial.capture());
+        verify(fornecedorPesquisado).setTelefone(telefone.capture());
+
+        InOrder ordem = inOrder(dao);
+
+        ordem.verify(dao).iniciarTransacao();
+        ordem.verify(dao).alterar(fornecedorPesquisado);
+        ordem.verify(dao).finalizarTransacao();
+        ordem.verify(dao).fecharConexao();
+
+
 	}
+
+    @Test(expected=DAOException.class)
+    public void testDisparoDeExcecaoNaAlteracaoDoFornecedor()throws DAOException{
+
+        Fornecedor fornecedorAlterado = gerarFornecedor();
+        fornecedorAlterado.setId(1L);
+
+        Fornecedor fornecedorPesquisado = gerarFornecedor();
+
+        when(dao.buscar(Fornecedor.class,fornecedorAlterado.getId())).thenReturn(fornecedorPesquisado);
+
+        doThrow(DAOException.class).when(dao).finalizarTransacao();
+
+        fornecedorFacade.alterarFornecedor(fornecedorAlterado);
+
+    }
 	
 	private Fornecedor gerarFornecedor(){
 		
