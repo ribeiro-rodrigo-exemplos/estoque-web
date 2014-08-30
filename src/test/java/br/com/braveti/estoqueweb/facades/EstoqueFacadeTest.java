@@ -16,7 +16,7 @@ import br.com.braveti.estoqueweb.dominio.Estoque;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-public class EstoqueFacadeTests {
+public class EstoqueFacadeTest {
 
 	private EstoqueFacade facade;
 

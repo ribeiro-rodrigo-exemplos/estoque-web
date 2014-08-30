@@ -14,7 +14,7 @@ import br.com.braveti.estoqueweb.dominio.Categoria;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-public class CategoriaFacadeTests {
+public class CategoriaFacadeTest {
 
     @Mock
 	private CategoriaDAO dao;

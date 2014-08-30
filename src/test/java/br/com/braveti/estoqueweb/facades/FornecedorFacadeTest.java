@@ -18,7 +18,7 @@ import br.com.braveti.estoqueweb.dao.DAOException;
 import br.com.braveti.estoqueweb.dao.FornecedorDAO;
 import br.com.braveti.estoqueweb.dominio.Fornecedor;
 
-public class FornecedorFacadeTests {
+public class FornecedorFacadeTest {
 
 	private FornecedorFacade fornecedorFacade; 
     @Mock

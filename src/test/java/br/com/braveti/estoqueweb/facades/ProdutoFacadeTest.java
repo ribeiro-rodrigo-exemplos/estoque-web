@@ -13,7 +13,7 @@ import com.inove.estoqueweb.testdatabuilders.ProdutoDataBuilder;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-public class ProdutoFacadeTests {
+public class ProdutoFacadeTest {
 
     @Mock
 	private ProdutoDAO produtoDAO;
