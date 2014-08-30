@@ -107,6 +107,7 @@ public class ProdutoFacade {
 		categoriaDAO.fecharConexao();
 		fornecedorDAO.fecharConexao();
 		produtoDAO.fecharConexao();
+        estoqueDAO.fecharConexao();
 			
 	}
 	

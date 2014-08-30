@@ -30,6 +30,7 @@ public class ProdutoDataBuilder {
 		
 		Categoria categoria = new Categoria();
 		categoria.setNome(nome);
+        categoria.setId(1L);
 		produto.setCategoria(categoria);
 		return this; 
 	}
@@ -38,6 +39,7 @@ public class ProdutoDataBuilder {
 		
 		Estoque estoque = new Estoque(); 
 		estoque.setNome(nome);
+        estoque.setId(1L);
 		produto.setEstoqueAtual(estoque);
 		return this; 
 	}
@@ -46,6 +48,7 @@ public class ProdutoDataBuilder {
 		
 		Fornecedor fornecedor = new Fornecedor(); 
 		fornecedor.setRazaoSocial(razaoSocial);
+        fornecedor.setId(1L);
 		produto.setFornecedor(fornecedor);
 		return this; 
 	}
