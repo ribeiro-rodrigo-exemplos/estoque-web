@@ -58,7 +58,7 @@
       <dependency>
           <groupId>org.mockito</groupId>
           <artifactId>mockito-all</artifactId>
-          <version>1.9.5</version>
+          <version>1.9.5</version>'
       </dependency>
   </dependencies>
   <build>
@@ -69,6 +69,43 @@
     		<artifactId>tomcat7-maven-plugin</artifactId>
     		<version>2.2</version>
     	</plugin>
+        <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.6.2.201302030002</version>
+            <executions>
+                <execution>
+                    <id>prepare-agent</id>
+                    <goals>
+                        <goal>prepare-agent</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <id>report</id>
+                    <phase>prepare-package</phase>
+                    <goals>
+                        <goal>report</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <!--realizar a verificação com o comando mvn verify -->
+                    <id>check</id>
+                    <goals>
+                        <goal>check</goal>
+                    </goals>
+                    <configuration>
+                        <check>
+                            <classRatio>20</classRatio>
+                            <instructionRatio>20</instructionRatio>
+                            <methodRatio>20</methodRatio>
+                            <branchRatio>20</branchRatio>
+                            <complexityRatio>20</complexityRatio>
+                            <lineRatio>20</lineRatio>
+                        </check>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
     </plugins>
   </build>
 </project>

@@ -16,7 +16,7 @@ import br.com.braveti.estoqueweb.dao.FabricaDeSessaoImpl;
 import br.com.braveti.estoqueweb.dao.GenericoDAO;
 import br.com.braveti.estoqueweb.dominio.*;
 
-public class GenericDAOTests {
+public class GenericoDAOTest {
 
 	private GenericoDAO<Categoria> dao; 
 	private static FabricaDeSessao fabrica; 
