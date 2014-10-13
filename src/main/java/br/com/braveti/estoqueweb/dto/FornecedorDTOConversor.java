@@ -19,6 +19,7 @@ public class FornecedorDTOConversor implements DTOConversor<FornecedorDTO,Fornec
 		dto.setEmail(fornecedor.getEmail());
 		dto.setEndereco(fornecedor.getEndereco());
 		dto.setRazaoSocial(fornecedor.getRazaoSocial());
+                dto.setTelefone(fornecedor.getTelefone()) ;
 		
 		return dto; 
 	}
